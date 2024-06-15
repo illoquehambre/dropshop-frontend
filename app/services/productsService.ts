@@ -1,3 +1,4 @@
+import { ProductDetailsDto, Category } from '../dto/CreateProductDto';
 import { ProductDto, ProductListDto } from '../dto/ProductListDto';
 import clientPromise from '../lib/mongodb';
 import { ObjectId } from 'mongodb';
@@ -100,6 +101,21 @@ export const parsearDto = async (data: any): Promise<ProductListDto> => {
         paging: data.paging,
     };
 
+
+}
+export const  addCategoryToProductDetails = async (productDetails: ProductDetailsDto, category: Category): Promise<ProductDetailsDto> => {
+    try{
+        const existencia = await comprobarExistenciaEnBD(productDetails.result.sync_product.id)
+        if(existencia)throw new Error('Este elemento ya existe en la Base de Datos')
+        productDetails.result.sync_product.category = category;
+    }catch (e:any){
+        console.error(e.name, e.message)
+    }
+    
+    return productDetails;
+}
+
+export const agregarABaseDeDatos = async(productDetails: ProductDetailsDto)=>{
 
 }
 
