@@ -1,44 +1,22 @@
 import { ProductDetailsDto, Category } from '../dto/CreateProductDto';
 import { ProductDto, ProductListDto } from '../dto/ProductListDto';
-import clientPromise from '../lib/mongodb';
-import { ObjectId } from 'mongodb';
-
-
+//import clientPromise from '../lib/mongodb';
+import { connectDb } from '../lib/mongodb';
+import Producto from '@/app/model/productModel';
+import { Types } from 'mongoose';
+import Variante from '../model/variantModel';
 //Este método deberá ejecutarse antes del volcado en el dto en el endpoint productos??
 export const comprobarExistenciaEnBD = async (id: number): Promise<boolean> => {
 
-    const newId = id.toString()
+
     //Recibe el id del producto
-    let query: any;
-    if (ObjectId.isValid(newId) && newId.length === 24) {
-        // Si el id es un ObjectId válido (24 caracteres hexadecimales)
-        query = { _id: new ObjectId(newId) };
-    } else {
-        // Si el id es un string (u otro formato)
-        query = { _id: newId };
-    }
 
     try {
-        const client = await clientPromise;
-        const db = client.db('ComercioTest');
+        connectDb();
+        const producto = await Producto.find({ id: id });
+        console.log(producto.length > 0);
 
-        const collection = db.collection('productos');
-
-        const documents = await collection.find({}).toArray();
-        console.log( documents);
-        // Buscar un documento en la colección 'productos' con el _id correspondiente
-        //En caso de encontrarlo devuelve el producto. Si no, null.
-        const product = await db.collection('productos').findOne(query);
-        console.log(!!product);
-
-        /*
-                if (!product) {
-                    return false;
-                }
-        
-                return true;
-                */
-        return !!product;
+        return producto.length > 0;
     } catch (error) {
         console.error('Ha habido un error de algun tipo', error);
         return false;
@@ -92,7 +70,7 @@ export const parsearDto = async (data: any): Promise<ProductListDto> => {
     const productsDto = await Promise.all(productsDtoPromises);
     */
     const productsDto = await Promise.all(productsDtoPromises);
-    console.log(productsDto);
+    //console.log(productsDto);
 
     return {
         code: data.code,
@@ -103,19 +81,40 @@ export const parsearDto = async (data: any): Promise<ProductListDto> => {
 
 
 }
-export const  addCategoryToProductDetails = async (productDetails: ProductDetailsDto, category: Category): Promise<ProductDetailsDto> => {
-    try{
+export const addCategoryToProductDetails = async (productDetails: ProductDetailsDto, category: Category): Promise<ProductDetailsDto> => {
+    try {
         const existencia = await comprobarExistenciaEnBD(productDetails.result.sync_product.id)
-        if(existencia)throw new Error('Este elemento ya existe en la Base de Datos')
+        if (existencia) throw new Error('Este elemento ya existe en la Base de Datos')
         productDetails.result.sync_product.category = category;
-    }catch (e:any){
+    } catch (e: any) {
         console.error(e.name, e.message)
     }
-    
+
     return productDetails;
 }
 
-export const agregarABaseDeDatos = async(productDetails: ProductDetailsDto)=>{
+export const agregarABaseDeDatos = async (productDetails: ProductDetailsDto) => {
 
 }
 
+export const getCheapestVariante = async (productId: string) => {
+
+    try {
+        const cheapestVariante = await Variante.aggregate([
+            {
+                $match: {
+                    sync_product_id: productId
+                }
+            }, // Filtrar por productId
+            { $sort: { retail_price: 1 } }, // Ordenar por precio ascendente
+            { $limit: 1 } // Limitar el resultado a 1 documento
+        ]);
+        if (cheapestVariante.length > 0) {
+            return cheapestVariante[0].retail_price;
+        } else {
+            return null;
+        }
+    } catch (err) {
+        console.error('Error:', err);
+    }
+}

@@ -19,8 +19,13 @@
     ],
     "paths": {
       "@/*": ["./*"],
+      "@/app/*": ["./app/*"],
+      "@/api/*": ["./app/api/*"],
+      "@/components/*": ["./app/components/*"],
+      "@/services/*": ["./app/services/*"],
+      "@/dto/*": ["./app/dto/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/lib/mongodb.js"],
   "exclude": ["node_modules"]
 }

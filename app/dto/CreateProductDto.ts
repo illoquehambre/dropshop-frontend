@@ -104,7 +104,8 @@ export interface Product {
     name: string;
 }
 
-export interface Category{//Añadido adicionalemnte
-    id:string,
-    name: string,
+export enum Category{//Añadido adicionalemnte
+    "Camisetas",
+    "Sudaderas",
+    "Lienzos"
 }
