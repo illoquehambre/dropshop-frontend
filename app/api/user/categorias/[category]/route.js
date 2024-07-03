@@ -13,7 +13,7 @@ export async function GET(request, { params }) {
       return new Response('No existen productos para esta categoria', { status: 404 });
     }
 
-    const productListDtoPromises = productList.map(async product => {
+   /* const productListDtoPromises = productList.map(async product => {
       // Set the 'price' field to the specified 'precio' value
       console.log(product.thumbnail_url);
       return new ProductUserDto({
@@ -24,16 +24,16 @@ export async function GET(request, { params }) {
         synced: product.synced,
         thumbnailUrl: product.thumbnail_url,
         isIgnored: product.is_ignored,
-        category: product.category,
+        category: product.category,   
         price: await getCheapestVariante(product._id)
       });
     });
 
 
     const productListDto = await Promise.all(productListDtoPromises);
+*/
 
-
-    return new Response(JSON.stringify(productListDto), {
+    return new Response(JSON.stringify(productList), {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {

@@ -8,7 +8,8 @@ const SyncProductSchema = new Schema({
     synced: Number,
     thumbnail_url: String,
     is_ignored: Boolean,
-    category: { type: String, enum: ["Camisetas", "Sudaderas", "Lienzos"] }
+    category: { type: String, enum: ["Camisetas", "Sudaderas", "Lienzos", "Bolsos"] },
+    price: String
 });
 
 

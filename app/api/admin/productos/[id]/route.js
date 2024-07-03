@@ -1,8 +1,9 @@
 import Producto from '@/app/model/productModel'
 import Variante from '@/app/model/variantModel'
-import { comprobarExistenciaEnBD } from '@/app/services/productsService';
+import { comprobarExistenciaEnBD, getCheapestVariante } from '@/app/services/productsService';
 import { NextResponse } from "next/server";
 import { connectDb } from "@/app/lib/mongodb"
+
 
 
 
@@ -82,17 +83,24 @@ export async function POST(request, { params }) {
         }
         const data = await response.json();//aqui recibiremos todo el producto menos categoria
         const existencia = await comprobarExistenciaEnBD(data.result.sync_product.id);
+        console.log(existencia);
         if (!existencia) {
             const newProduct = new Producto(data.result.sync_product)
             newProduct.category = category
+            console.log('llega');
+            newProduct.price = await getCheapestVariante( data.result.sync_variants)
+            console.log(newProduct);
             const savedProduct = await newProduct.save()
+            console.log(savedProduct);
             data.result.sync_variants.map(async variant => {
                 const variante = new Variante(variant)
                 variante.sync_product_id = savedProduct._id
                 const savedVariante = await variante.save()
-                console.log(savedVariante);
+                
 
             });
+           
+            console.log(savedProduct);
             return NextResponse.json({
                 "Producto": savedProduct,
                 "Variantes": data.result.sync_variants

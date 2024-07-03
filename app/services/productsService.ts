@@ -1,10 +1,11 @@
-import { ProductDetailsDto, Category } from '../dto/CreateProductDto';
+import { ProductDetailsDto, Category, SyncVariant } from '../dto/CreateProductDto';
 import { ProductDto, ProductListDto } from '../dto/ProductListDto';
 //import clientPromise from '../lib/mongodb';
 import { connectDb } from '../lib/mongodb';
 import Producto from '@/app/model/productModel';
 import { Types } from 'mongoose';
 import Variante from '../model/variantModel';
+
 //Este método deberá ejecutarse antes del volcado en el dto en el endpoint productos??
 export const comprobarExistenciaEnBD = async (id: number): Promise<boolean> => {
 
@@ -14,7 +15,7 @@ export const comprobarExistenciaEnBD = async (id: number): Promise<boolean> => {
     try {
         connectDb();
         const producto = await Producto.find({ id: id });
-        console.log(producto.length > 0);
+        
 
         return producto.length > 0;
     } catch (error) {
@@ -93,13 +94,12 @@ export const addCategoryToProductDetails = async (productDetails: ProductDetails
     return productDetails;
 }
 
-export const agregarABaseDeDatos = async (productDetails: ProductDetailsDto) => {
 
-}
 
-export const getCheapestVariante = async (productId: string) => {
+export const getCheapestVariante = async (variants: SyncVariant[]) => {
 
     try {
+        /*
         const cheapestVariante = await Variante.aggregate([
             {
                 $match: {
@@ -109,12 +109,15 @@ export const getCheapestVariante = async (productId: string) => {
             { $sort: { retail_price: 1 } }, // Ordenar por precio ascendente
             { $limit: 1 } // Limitar el resultado a 1 documento
         ]);
-        if (cheapestVariante.length > 0) {
-            return cheapestVariante[0].retail_price;
+        */
+        variants.sort((a, b) => parseFloat(b.retail_price) - parseFloat(a.retail_price));
+
+        if (variants.length > 0) {
+            return variants[0].retail_price;
         } else {
             return null;
         }
     } catch (err) {
         console.error('Error:', err);
     }
-}
+}  

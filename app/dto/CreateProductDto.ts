@@ -105,7 +105,8 @@ export interface Product {
 }
 
 export enum Category{//Añadido adicionalemnte
-    "Camisetas",
-    "Sudaderas",
-    "Lienzos"
+    Camisetas= "Camisetas",
+    Sudaderas = "Sudaderas",
+    Lienzos = "Lienzos",
+    Bolsos = "Bolsos"
 }
