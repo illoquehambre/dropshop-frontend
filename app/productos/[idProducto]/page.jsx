@@ -11,7 +11,7 @@ const ProductDetails = ({ params }) => {
     console.log(`Fetching data for product ID: ${params.idProducto}`);
 
     // Llamada al endpoint de la API
-    fetch(`/api/user/productos/${params.idProducto}`)
+    fetch(`/api/user/refactor/${params.idProducto}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -19,7 +19,7 @@ const ProductDetails = ({ params }) => {
         return response.json();
       })
       .then(data => {
-        setResult(data);
+        setResult(data.result);
         console.log('Data fetched:', data);
       })
       .catch(error => {

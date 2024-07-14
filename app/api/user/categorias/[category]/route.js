@@ -1,11 +1,11 @@
 
-import Producto from '@/app/model/productModel'
+/*import Producto from '@/app/model/productModel'
 import { getCheapestVariante } from '@/services/productsService'
-import { connectDb } from "@/app/lib/mongodb"
+//import { connectDb } from "@/app/lib/mongodb"
 import { ProductUserDto } from '@/dto/ProductUserDto'
 
 export async function GET(request, { params }) {
-  connectDb()
+  //connectDb()
   try {
     const productList = await Producto.find({ category: params.category });
 
@@ -31,7 +31,7 @@ export async function GET(request, { params }) {
 
 
     const productListDto = await Promise.all(productListDtoPromises);
-*/
+*//*
 
     return new Response(JSON.stringify(productList), {
       headers: { 'Content-Type': 'application/json' },
@@ -39,4 +39,4 @@ export async function GET(request, { params }) {
   } catch (error) {
     return new Response(error, { status: 500 });
   }
-}
+}*/

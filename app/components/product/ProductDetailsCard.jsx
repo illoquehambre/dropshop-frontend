@@ -1,66 +1,92 @@
 'use client';
 import { Card, CardBody, Image, Button } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HeartIcon } from "@/public/icons/HeartIcon";
 import { CartPlus } from "@/public/icons/CartPlus";
 import { Money } from "@/public/icons/Money";
 import { RadioGroup, Radio } from "@nextui-org/react";
-import { Tabs, Tab } from "@nextui-org/react";
-import ColorSelector from '@/components/colorSelector/ColorSelector'
+
+import ColorSelector from '@/components/selectors/ColorSelector'
+import SizeSelector from '@/components/selectors/SizeSelector'
 
 //import { getCheapestVariante } from "@/app/services/productsService";
 
-const variants = [
-  { id: 1, size: 'S', color: 'Red' },
-  { id: 2, size: 'S', color: 'Blue' },
-  { id: 3, size: 'M', color: 'Red' },
-  { id: 4, size: 'M', color: 'Green' },
-  { id: 5, size: 'L', color: 'Blue' },
-  { id: 6, size: 'L', color: 'Green' },
-  // ... otras variantes
-];
+
 
 
 export default function ProductDetailsCard({ result }) {
-  const producto = result.Producto
-  const variantes = result.Variantes
+  const producto = result.sync_product
+  const variantes = result.sync_variants
+  
   console.log(result);
   console.log(variantes);
 
-  const [selectedSize, setSelectedSize] = useState('');
-  const [selectedColor, setSelectedColor] = useState('');
+  const [liked, setLiked] = useState(false);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedVariante, setSelectedVariante] = useState(null)
+  console.log(selectedVariante);
 
   // Obtener todas las tallas disponibles
   const availableColors = [...new Set(variantes.map(variant => variant.color))];
   const filteredColors = availableColors.filter(color => color !== null);
-/*
-  // Obtener colores disponibles según la talla seleccionada
-  const availableSizes = selectedSize
-    ? [...new Set(variants.filter(variant => variant.size === selectedSize).map(variant => variant.color))]
-    : [...new Set(variants.map(variant => variant.color))];
 
-  // Obtener tallas disponibles según el color seleccionado
-  const filteredSizes = selectedColor
-    ? [...new Set(variants.filter(variant => variant.color === selectedColor).map(variant => variant.size))]
-    : availableSizes;
+  const availableSizes = [...new Set(variantes.map(variant => variant.size))];
+  const filteredSizes = availableSizes.filter(size => size !== null);
+  /*
+    // Obtener colores disponibles según la talla seleccionada
+    const availableSizes = selectedSize
+      ? [...new Set(variants.filter(variant => variant.size === selectedSize).map(variant => variant.color))]
+      : [...new Set(variants.map(variant => variant.color))];
+  
+    // Obtener tallas disponibles según el color seleccionado
+    const filteredSizes = selectedColor
+      ? [...new Set(variants.filter(variant => variant.color === selectedColor).map(variant => variant.size))]
+      : availableSizes;
+  
+  */
 
-*/
 
 
-  const [liked, setLiked] = useState(false);
 
- 
+  useEffect(() => {
+    if (variantes.length > 0) {
+      setSelectedSize(variantes[0].size);
+      setSelectedColor(variantes[0].color);
+      setSelectedVariante(variantes[0]);
+    }
+  }, [variantes]);
+
+  useEffect(() => {
+    const nuevaVariante = variantes.filter(variante => variante.color == selectedColor && variante.size == selectedSize)
+    console.log(nuevaVariante);
+    setSelectedVariante(nuevaVariante[0])
+    console.log(selectedVariante);
+   
+  }, [selectedColor, selectedSize])
+  
+
 
   const handleColorSelect = (color) => {
     setSelectedColor(color);
+    console.log(selectedColor);
     console.log(color);
   };
 
+  const handleSizeSelect = (size) => {
+    setSelectedSize(size);
+    console.log(selectedSize);
+    console.log(size);
+  };
+
+  if (!selectedVariante) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Card
       isBlurred
-      className="border-none bg-background/60 dark:bg-default-100/50 w-100"
+      className="border-none bg-background/60 dark:bg-default-100/50 w-100 my-6"
       shadow="sm"
     >
       <CardBody>
@@ -71,7 +97,7 @@ export default function ProductDetailsCard({ result }) {
               className="object-cover"
               height={800}
               shadow="md"
-              src={producto.thumbnail_url}
+              src={selectedVariante.files[1].preview_url}
               width="100%"
             />
             <ColorSelector onSelect={handleColorSelect} colors={filteredColors}></ColorSelector>
@@ -81,7 +107,7 @@ export default function ProductDetailsCard({ result }) {
             <div className="flex justify-between items-start">
               <div className="flex flex-col gap-6">
                 <h1 className=" text-4xl font-bold">{producto.name}</h1>
-                <p className="text-2xl text-semibold">{producto.price} €</p>
+                <p className="text-2xl text-semibold">{selectedVariante.retail_price} €</p>
 
               </div>
 
@@ -99,14 +125,8 @@ export default function ProductDetailsCard({ result }) {
               </Button>
             </div>
             <div className="flex flex-wrap gap-4">
+              <SizeSelector onSelect={handleSizeSelect} sizes={filteredSizes}></SizeSelector>
 
-              <Tabs size="lg" variant="light" key="blue" color="primary" aria-label="Tabs colors" radius="full">
-                <Tab key="xs" title="XS" />
-                <Tab key="s" title="S" />
-                <Tab key="m" title="M" />
-                <Tab key="l" title="L" />
-                <Tab key="xl" title="XL" />
-              </Tabs>
 
             </div>
 

@@ -5,20 +5,20 @@
 
 const BEARER_TOKEN = process.env.NEXT_PUBLIC_BEARER_TOKEN;
 
-export async function GET(request, { params }) {
+export async function GET(request) {
 
 
-    const { id } = params;
+
 
     try {
-        const response = await fetch(`https://api.printful.com/store/products/${id}`, {
+        const response = await fetch(`https://api.printful.com/store/products`, {
             headers: {
                 'Authorization': `Bearer ${BEARER_TOKEN}`,
                 'Content-Type': 'application/json',
             },
         });
         if (!response.ok) {
-            return new Response('Failed to fetch product', { status: response.status });
+            return new Response('Failed to fetch products', { status: response.status });
         }
         const data = await response.json();
         return new Response(JSON.stringify(data), {

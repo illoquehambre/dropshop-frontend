@@ -1,5 +1,5 @@
-import { connectDb } from "@/app/lib/mongodb"
-import Producto from '@/app/model/productModel'
+//import { connectDb } from "@/app/lib/mongodb"
+/*import Producto from '@/app/model/productModel'
 import Variante from "@/app/model/variantModel";
 import { NextResponse } from "next/server";
 
@@ -8,7 +8,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(request, { params }) {
 
-    connectDb()
+    //connectDb()
     const { id } = params;
     console.log(id);
     try {
@@ -30,4 +30,4 @@ export async function GET(request, { params }) {
     } catch (error) {
         return new Response(error, { status: 500 });
     }
-}
+}*/

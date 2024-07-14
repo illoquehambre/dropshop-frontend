@@ -1,19 +1,19 @@
 import { ProductDetailsDto, Category, SyncVariant } from '../dto/CreateProductDto';
 import { ProductDto, ProductListDto } from '../dto/ProductListDto';
 //import clientPromise from '../lib/mongodb';
-import { connectDb } from '../lib/mongodb';
-import Producto from '@/app/model/productModel';
+//import Producto from '@/app/model/productModel';
 import { Types } from 'mongoose';
-import Variante from '../model/variantModel';
+//import Variante from '../model/variantModel';
 
 //Este método deberá ejecutarse antes del volcado en el dto en el endpoint productos??
+/*
 export const comprobarExistenciaEnBD = async (id: number): Promise<boolean> => {
 
 
     //Recibe el id del producto
 
     try {
-        connectDb();
+        //connectDb();
         const producto = await Producto.find({ id: id });
         
 
@@ -24,7 +24,7 @@ export const comprobarExistenciaEnBD = async (id: number): Promise<boolean> => {
     }
 
     //En caso de encontrarlo devuelve true. Si no, false.
-}
+}*/
 /*
 export const agregarAtributoSavedInDb = async (result: any) => {
     const persistenciaArray: boolean[] = [];
@@ -47,7 +47,7 @@ export const agregarAtributoSavedInDb = async (result: any) => {
     
 }
 */
-
+/*
 export const transformToProductDto = async (data: any): Promise<ProductDto> => {
     return {
         id: data.id,
@@ -60,7 +60,8 @@ export const transformToProductDto = async (data: any): Promise<ProductDto> => {
         savedInDb: await comprobarExistenciaEnBD(data.id) // Aplicar la función para determinar el valor booleano
     };
 };
-
+*/
+/*
 export const parsearDto = async (data: any): Promise<ProductListDto> => {
 
 
@@ -69,7 +70,7 @@ export const parsearDto = async (data: any): Promise<ProductListDto> => {
     
     //Se realiza un listado de ProductosDTO
     const productsDto = await Promise.all(productsDtoPromises);
-    */
+    *//*
     const productsDto = await Promise.all(productsDtoPromises);
     //console.log(productsDto);
 
@@ -82,6 +83,7 @@ export const parsearDto = async (data: any): Promise<ProductListDto> => {
 
 
 }
+
 export const addCategoryToProductDetails = async (productDetails: ProductDetailsDto, category: Category): Promise<ProductDetailsDto> => {
     try {
         const existencia = await comprobarExistenciaEnBD(productDetails.result.sync_product.id)
@@ -94,23 +96,13 @@ export const addCategoryToProductDetails = async (productDetails: ProductDetails
     return productDetails;
 }
 
-
+*/
 
 export const getCheapestVariante = async (variants: SyncVariant[]) => {
 
     try {
-        /*
-        const cheapestVariante = await Variante.aggregate([
-            {
-                $match: {
-                    sync_product_id: productId
-                }
-            }, // Filtrar por productId
-            { $sort: { retail_price: 1 } }, // Ordenar por precio ascendente
-            { $limit: 1 } // Limitar el resultado a 1 documento
-        ]);
-        */
-        variants.sort((a, b) => parseFloat(b.retail_price) - parseFloat(a.retail_price));
+   
+        variants.sort((a, b) => parseFloat(a.retail_price) - parseFloat(b.retail_price));
 
         if (variants.length > 0) {
             return variants[0].retail_price;

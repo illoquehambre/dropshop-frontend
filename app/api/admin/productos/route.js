@@ -1,12 +1,12 @@
 //DEBERÍA:
 //1- Eliminar los datos innecesarios 
 //2- Mostrar si existen ya o no en la base de datos local
-
+/*
 import { parsearDto } from "@/app/services/productsService";
 const BEARER_TOKEN = process.env.NEXT_PUBLIC_BEARER_TOKEN;
 import  Producto  from '@/app/model/productModel'
 import { NextResponse } from "next/server";
-import { connectDb } from "@/app/lib/mongodb"
+//import { connectDb } from "@/app/lib/mongodb"
 
 export async function GET(request) {
   try {
@@ -35,7 +35,7 @@ export async function GET(request) {
 
 
 export async function POST(request, { params }) {
-  connectDb()
+  //connectDb()
   const { id } = params;
   const category ='Camisetas'
   try {
@@ -70,4 +70,4 @@ export async function POST(request, { params }) {
     }
     )
   }
-}
+}*/

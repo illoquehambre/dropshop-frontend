@@ -9,6 +9,7 @@ const ColorSelector = ({ onSelect, colors }) => {
     onSelect(selectedColor)
     const handleColorClick = (color) => {
         setSelectedColor(color);
+        console.log(color);
         onSelect(color)
     };
 
@@ -27,6 +28,8 @@ const ColorSelector = ({ onSelect, colors }) => {
                 ></div>
             ))}
         </div>
+
+        
     );
 };
 

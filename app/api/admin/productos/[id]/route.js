@@ -1,10 +1,10 @@
-import Producto from '@/app/model/productModel'
-import Variante from '@/app/model/variantModel'
+//import Producto from '@/app/model/productModel'
+//import Variante from '@/app/model/variantModel'
 import { comprobarExistenciaEnBD, getCheapestVariante } from '@/app/services/productsService';
 import { NextResponse } from "next/server";
-import { connectDb } from "@/app/lib/mongodb"
+//import { connectDb } from "@/app/lib/mongodb"
 
-
+/*
 
 
 const BEARER_TOKEN = process.env.NEXT_PUBLIC_BEARER_TOKEN;
@@ -60,8 +60,9 @@ export async function Post(request, { params }) {
     }
 }
 */
+/*
 export async function POST(request, { params }) {
-    connectDb()
+    //connectDb()
     const { id } = params;
     const requestJson = await request.json()
     const category = requestJson.category
@@ -120,4 +121,4 @@ export async function POST(request, { params }) {
         }
         )
     }
-}
+}*/
