@@ -46,3 +46,4 @@ const SizeSelector = ({ onSelect, sizes }) => {
 };
 
 export default SizeSelector;
+   

@@ -130,19 +130,17 @@ export default function ProductDetailsCard({ result }) {
 
             </div>
 
-            <div className=" flex fit-content ">
-              <div isBlurred
-                shadow="sm" className="border-none  w-100 flex gap-2  rounded-lg   items-center">
-                <button className="text-lg text-semibold bg-zinc-800 px-3 py-1 rounded-lg  text-white hover:scale-105" >-</button>
-                <p className="text-lg text-semibold  bg-zinc-300/25 px-5 py-1  rounded-md">1</p>
-                <button className="text-lg text-semibold bg-zinc-800 px-3 py-1 rounded-lg  text-white hover:scale-105">+</button>
-              </div>
-
-            </div>
+            
 
 
             <div className="flex gap-8 items-center ">
-              <Button radius="full" className="bg-gradient-to-tr from-blue-500 to-sky-400 text-white shadow-lg gap-4 hover:scale-110" endContent={<CartPlus />}>
+              <Button radius="full" className=" snipcart-add-item bg-gradient-to-tr from-blue-500 to-sky-400 text-white shadow-lg gap-4 hover:scale-110" endContent={<CartPlus />}
+               data-item-id={selectedVariante.id}
+               data-item-price={selectedVariante.retail_price}
+               data-item-url={`/productos/${producto.id}`}
+               data-item-description={selectedVariante.name}
+               data-item-image={selectedVariante.files[1].thumbnail_url}
+               data-item-name={selectedVariante.name}>
                 Add to Cart
               </Button>
               <Button radius="full" className="bg-gradient-to-tr from-emerald-500 to-teal-300 hover:scale-110 text-white shadow-lg gap-2" endContent={<Money />}>

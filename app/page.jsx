@@ -7,7 +7,7 @@ export default function Home() {
 
   useEffect(() => {
     // Llamada al endpoint de la API
-    fetch('/api/user/productos')
+    fetch('/api/user/refactor')
       .then(response => response.json())
       .then(data => {
         setResult(data.result);
