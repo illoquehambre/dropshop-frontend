@@ -39,7 +39,7 @@ export const NavBar = () => {
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
-          <Link color="foreground" href="#">
+          <Link color="foreground" href="/productos">
             Home
           </Link>
         </NavbarItem>
@@ -67,7 +67,7 @@ export const NavBar = () => {
           >
             <DropdownItem
               key="Camisetas"
-              href="/categorias/Camisetas"
+              href="/productos?category=24"
 
             //startContent={icons.scale}
             >
@@ -75,21 +75,21 @@ export const NavBar = () => {
             </DropdownItem>
             <DropdownItem
               key="Sudaderas"
-              href="/categorias/Sudaderas"
+              href="/productos?category=55"
             //startContent={icons.activity}
             >
               Sudaderas
             </DropdownItem>
             <DropdownItem
               key="Lienzos"
-              href="/categorias/Lienzos"
+              href="/productos?category=55"
             //startContent={icons.flash}
             >
               Lienzos
             </DropdownItem>
             <DropdownItem
               key="Bolsos"
-              href="/categorias/Bolsos"
+              href="/productos?category=24"
             //startContent={icons.server}
             >
               Bolsos
