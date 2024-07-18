@@ -118,7 +118,7 @@ export default function ProductDetailsCard({ result }) {
                 endContent={<CartPlus />}
                 data-item-id={selectedVariante && selectedVariante.id}
                 data-item-price={selectedVariante && selectedVariante.retail_price}
-                data-item-url={`/productos/${producto.id}`}
+                //data-item-url={`/productos/${producto.id}`}
                 data-item-description={selectedVariante && selectedVariante.name}
                 data-item-image={selectedVariante && selectedVariante.files[1].thumbnail_url}
                 data-item-name={selectedVariante && selectedVariante.name}
