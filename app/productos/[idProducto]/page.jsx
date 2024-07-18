@@ -1,6 +1,7 @@
 'use client';
 import ProductDetailsCard from '@/components/product/ProductDetailsCard';
 import { useState, useEffect } from 'react';
+import { Skeleton } from '@nextui-org/react';
 
 const ProductDetails = ({ params }) => {
   const [result, setResult] = useState([]);
@@ -31,15 +32,22 @@ const ProductDetails = ({ params }) => {
       });
   }, [params.idProducto]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+
 
   if (error) {
     return <div>Error: {error.message}</div>;
   }
 
-  return <ProductDetailsCard result={result}></ProductDetailsCard>;
+  return (
+    <Skeleton isLoaded={!loading} className="rounded-lg">
+      {
+        result.length != 0 && (
+          <ProductDetailsCard result={result}></ProductDetailsCard>
+        )
+      }
+
+    </Skeleton>
+  )
 };
 
 export default ProductDetails;

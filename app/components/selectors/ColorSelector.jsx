@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { getColorCode } from '../../services/colorService';
-
 //const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF'];
 
 const ColorSelector = ({ onSelect, colors }) => {
@@ -11,6 +10,7 @@ const ColorSelector = ({ onSelect, colors }) => {
             onSelect(selectedColor);
         }
     }, [selectedColor, onSelect]);
+    
     const handleColorClick = (color) => {
         setSelectedColor(color);
         console.log(color);

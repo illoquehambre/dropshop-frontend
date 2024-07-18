@@ -4,10 +4,7 @@ import { useState, useEffect } from 'react';
 import { Tabs, Tab } from '@nextui-org/react';
 
 const SizeSelector = ({ onSelect, sizes }) => {
-    if (!sizes || sizes.length === 0) {
-        console.error('sizes must have at least one element');
-        return null;
-    }
+    
 
     const [selectedSize, setSelectedSize] = useState(sizes[0]);
 

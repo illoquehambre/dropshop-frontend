@@ -99,15 +99,15 @@ export const NavBar = () => {
         </Dropdown>
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex gap-5">
-          <Badge color="danger"  shape="circle" className="snipcart-items-count">
+        <NavbarItem className="hidden lg:flex gap-5 snipcart-checkout">
+          <Badge color="danger"  shape="circle" className="snipcart-items-count ">
             <svg
               fill="none"
               height={ 24}
               viewBox="0 0 24 24"
               width={ 24}
               xmlns="http://www.w3.org/2000/svg"
-              className="snipcart-checkout"
+              
               
             >
               <path
