@@ -1,6 +1,6 @@
 export const Footer = () => {
     return (
-      <div className="relative mt-16 bg-deep-purple-accent-400">
+      <div className="relative mt-16 bg-sky-400">
         <svg
           className="absolute top-0 w-full h-6 -mt-5 sm:-mt-10 sm:h-16 text-deep-purple-accent-400"
           preserveAspectRatio="none"

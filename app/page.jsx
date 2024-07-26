@@ -1,6 +1,7 @@
 'use client';
 import {ProductCard} from '@/components/product/ProductCard'
 import { useState, useEffect } from 'react';
+import Masonry from '@/app/components/masonry/Masonry'
 
 export default function Home() {
   const [result, setResult] = useState([]);
@@ -17,8 +18,11 @@ export default function Home() {
       });
   }, []);
   return (
-   
-    <div className='grid grid-cols-3 gap-y-7'>
+    <>
+    <Masonry></Masonry>
+    <span className='text-4xl text-black font-semibold'>All our Products: </span>
+    <div className='grid grid-cols-2 md:grid-cols-3 gap-y-7 mt-12 gap-x-3'>
+      
     {
       
       result.map((producto) =>(
@@ -32,6 +36,10 @@ export default function Home() {
 
     </div>
 
+</>
+    
+   
+    
  
   );
 }

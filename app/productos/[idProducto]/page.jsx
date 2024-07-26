@@ -39,7 +39,7 @@ const ProductDetails = ({ params }) => {
   }
 
   return (
-    <Skeleton isLoaded={!loading} className="rounded-lg">
+    <Skeleton isLoaded={!loading} className="rounded-lg min-h-screen">
       {
         result.length != 0 && (
           <ProductDetailsCard result={result}></ProductDetailsCard>

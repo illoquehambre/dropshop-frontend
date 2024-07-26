@@ -6,6 +6,7 @@ import { CartPlus } from "@/public/icons/CartPlus";
 import { Money } from "@/public/icons/Money";
 import ColorSelector from '@/components/selectors/ColorSelector';
 import SizeSelector from '@/components/selectors/SizeSelector';
+import SizeGuide from '@/components/sizeGuide/SizeGuide'
 
 export default function ProductDetailsCard({ result }) {
   const producto = result.sync_product;
@@ -57,14 +58,16 @@ export default function ProductDetailsCard({ result }) {
 
 
 
+
+
   return (
     <Card
       isBlurred
-      className="border-none bg-background/60 dark:bg-default-100/50 w-100 my-6"
+      className="border-none bg-background/60 dark:bg-default-100/50 w-100 my-6 "
       shadow="sm"
     >
-      <CardBody>
-        <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-4 items-center justify-center">
+      <CardBody >
+        <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-4 items-center justify-center overflow-hidden">
           <div className="relative col-span-8 md:col-span-6">
             <Skeleton isLoaded={!loading} className="rounded-lg">
               <Image
@@ -81,14 +84,14 @@ export default function ProductDetailsCard({ result }) {
             </Skeleton>
           </div>
 
-          <div className="flex flex-col col-span-4 md:col-span-6 h-full justify-between p-8">
+          <div className="flex flex-col col-span-8 md:col-span-6 h-full justify-between p-8">
             <div className="flex justify-between items-start">
-              <div className="flex flex-col gap-6 ">
+              <div className="flex flex-col sm:flex-row sm:items-center items-start md:flex-col gap-12 md:gap-6 ">
                 <Skeleton isLoaded={!loading} className="rounded-lg ">
-                  <h1 className=" text-4xl font-bold ">{producto.name}</h1>
+                  <h1 className="text-xl md:text-4xl font-bold ">{producto.name}</h1>
                 </Skeleton>
                 <Skeleton isLoaded={!loading} className="rounded-lg ">
-                  <p className="text-2xl text-semibold ">{selectedVariante && selectedVariante.retail_price} €</p>
+                  <p className="text-lg md:text-2xl font-semibold ">{selectedVariante && selectedVariante.retail_price} €</p>
                 </Skeleton>
               </div>
 
@@ -105,17 +108,24 @@ export default function ProductDetailsCard({ result }) {
                 />
               </Button>
             </div>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-col flex-wrap gap-4 mt-5">
+
+              <span className="text-black text-lg font-medium">Seleccione una talla: </span>
               <Skeleton isLoaded={!loading} className="rounded-lg">
 
                 <SizeSelector onSelect={handleSizeSelect} sizes={filteredSizes}></SizeSelector>
               </Skeleton>
+              <Skeleton isLoaded={!loading} className="rounded-lg">
+                <SizeGuide result={result}></SizeGuide>
+              </Skeleton>
+
             </div>
-            <div className="flex gap-8 items-center ">
+            <div className="flex flex-row md:flex-col xl:flex-row gap-4 items-center justify-between xl:mr-6 mt-3 ">
               <Button
                 radius="full"
-                className="snipcart-add-item bg-gradient-to-tr from-blue-500 to-sky-400 text-white shadow-lg gap-4 hover:scale-110"
+                className="snipcart-add-item bg-gradient-to-tr from-sky-800/75 to-sky-600/75 text-white shadow-lg gap-4 hover:scale-110 font-semibold tex-lg xl:text-xl md:w-full xl:w-fit"
                 endContent={<CartPlus />}
+                size="lg"
                 data-item-id={selectedVariante && selectedVariante.id}
                 data-item-price={selectedVariante && selectedVariante.retail_price}
                 //data-item-url={`/productos/${producto.id}`}
@@ -123,14 +133,15 @@ export default function ProductDetailsCard({ result }) {
                 data-item-image={selectedVariante && selectedVariante.files[1].thumbnail_url}
                 data-item-name={selectedVariante && selectedVariante.name}
               >
-                Add to Cart
+                Añadir al carrito
               </Button>
               <Button
                 radius="full"
-                className="bg-gradient-to-tr from-emerald-500 to-teal-300 hover:scale-110 text-white shadow-lg gap-2"
+                size="lg"
+                className="bg-gradient-to-tr from-cyan-400 to-cyan-300/75 hover:scale-110 text-white shadow-lg gap-2 font-semibold tex-lg xl:text-xl md:w-full xl:w-fit"
                 endContent={<Money />}
               >
-                Buy
+                Comprar ahora
               </Button>
             </div>
           </div>

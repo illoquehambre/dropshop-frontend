@@ -113,3 +113,4 @@ export const getCheapestVariante = async (variants: SyncVariant[]) => {
         console.error('Error:', err);
     }
 }  
+

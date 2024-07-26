@@ -16,6 +16,13 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        'hoodie': "url('/images/hoodie.png')",
+        'bag': "url('/images/bag.png')",
+        'accesories': "url('/images/accesories.png')",
+        'painting': "url('/images/painting.png')",
+        'notebooks': "url('/images/notebooks.png')",
+        'tshirt': "url('/images/t-shirt.png')",
+
       },
     },
   },
