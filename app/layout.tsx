@@ -1,13 +1,12 @@
 
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import { NavBar } from '@/components/navbar/NavBar2'
 import { Footer } from '@/app/components/footer/Footer'
-import Head from "next/head";
+
 import Script from 'next/script'
-import { useEffect, useState } from "react";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
