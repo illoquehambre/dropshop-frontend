@@ -66,8 +66,8 @@ export default function ProductDetailsCard({ result }) {
       className="border-none bg-background/60 dark:bg-default-100/50 w-100 my-6 "
       shadow="sm"
     >
-      <CardBody >
-        <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-4 items-center justify-center overflow-hidden">
+      <CardBody className="overflow-clip">
+        <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-4 items-center justify-center overflow-auto">
           <div className="relative col-span-8 md:col-span-6">
             <Skeleton isLoaded={!loading} className="rounded-lg">
               <Image
@@ -86,7 +86,7 @@ export default function ProductDetailsCard({ result }) {
 
           <div className="flex flex-col col-span-8 md:col-span-6 h-full justify-between p-8">
             <div className="flex justify-between items-start">
-              <div className="flex flex-col sm:flex-row sm:items-center items-start md:flex-col gap-12 md:gap-6 ">
+              <div className="flex flex-col sm:flex-row sm:items-center items-start md:items-start md:flex-col gap-12 md:gap-6 ">
                 <Skeleton isLoaded={!loading} className="rounded-lg ">
                   <h1 className="text-xl md:text-4xl font-bold ">{producto.name}</h1>
                 </Skeleton>
@@ -108,22 +108,25 @@ export default function ProductDetailsCard({ result }) {
                 />
               </Button>
             </div>
-            <div className="flex flex-col flex-wrap gap-4 mt-5">
+            <div className="flex flex-col flex-wrap gap-4 md:gap-8 mt-5 overflow-auto  items-start  ">
+              <div className="flex flex-col sm:flex-row gap-5 sm:items-center items-start">
+                <span className="text-black text-lg font-medium">Seleccione una talla: </span>
+                <Skeleton isLoaded={!loading} className="rounded-lg">
+                  <SizeGuide result={result}></SizeGuide>
+                </Skeleton>
+              </div>
 
-              <span className="text-black text-lg font-medium">Seleccione una talla: </span>
               <Skeleton isLoaded={!loading} className="rounded-lg">
 
                 <SizeSelector onSelect={handleSizeSelect} sizes={filteredSizes}></SizeSelector>
               </Skeleton>
-              <Skeleton isLoaded={!loading} className="rounded-lg">
-                <SizeGuide result={result}></SizeGuide>
-              </Skeleton>
+
 
             </div>
-            <div className="flex flex-row md:flex-col xl:flex-row gap-4 items-center justify-between xl:mr-6 mt-3 ">
+            <div className="flex flex-col sm:flex-row  md:flex-col xl:flex-row gap-4 items-center justify-between xl:mr-6 mt-3 ">
               <Button
                 radius="full"
-                className="snipcart-add-item bg-gradient-to-tr from-sky-800/75 to-sky-600/75 text-white shadow-lg gap-4 hover:scale-110 font-semibold tex-lg xl:text-xl md:w-full xl:w-fit"
+                className="snipcart-add-item bg-gradient-to-tr from-sky-800/75 to-sky-600/75 text-white shadow-lg gap-4 hover:scale-110 font-semibold tex-lg xl:text-xl w-full sm:w-fit md:w-full xl:w-fit"
                 endContent={<CartPlus />}
                 size="lg"
                 data-item-id={selectedVariante && selectedVariante.id}
@@ -138,7 +141,7 @@ export default function ProductDetailsCard({ result }) {
               <Button
                 radius="full"
                 size="lg"
-                className="bg-gradient-to-tr from-cyan-400 to-cyan-300/75 hover:scale-110 text-white shadow-lg gap-2 font-semibold tex-lg xl:text-xl md:w-full xl:w-fit"
+                className="bg-gradient-to-tr from-cyan-400 to-cyan-300/75 hover:scale-110 text-white shadow-lg gap-2 font-semibold  tex-lg xl:text-xl w-full sm:w-fit md:w-full xl:w-fit"
                 endContent={<Money />}
               >
                 Comprar ahora

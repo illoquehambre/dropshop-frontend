@@ -1,5 +1,6 @@
 'use client';
 import { useState } from "react";
+import { Image } from "@nextui-org/react";
 import {
   Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle,
   NavbarMenu, NavbarMenuItem, Link, Button,
@@ -35,7 +36,7 @@ export const NavBar = () => {
           className="sm:hidden flex"
         />
         <NavbarBrand className="gap-5 flex-grow-0 basis-auto" >
-          <img className="rounded-full h-20 hidden sm:inline" src="/logo.jpg" alt="Logo" />
+          <Image className="rounded-full h-20 hidden sm:inline" src="/logo.jpg" alt="Logo" />
           <div className="gap-3 sm:gap-1  flex flex-col">
             <p className="font-bold text-inherit text-xs sm:text-md">Angeles Batista</p>
             <p className="font-bold text-inherit text-md sm:text-2xl">Arts & Crafts</p>

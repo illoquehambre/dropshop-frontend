@@ -27,7 +27,7 @@ const SizeGuide = ({ result }) => {
                     setLoading(false); // Manejamos el estado de carga en caso de error
                 });
         }
-    }, [result]);
+    }, [result, id]);
 
 
     const getSizeImages = (sizeTables) => {

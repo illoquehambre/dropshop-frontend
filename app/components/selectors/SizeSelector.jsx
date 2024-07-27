@@ -22,7 +22,7 @@ const SizeSelector = ({ onSelect, sizes }) => {
     const sizeItems = sizes.map((size) => ({ key: size, label: size }));
 
     return (
-        <div className="flex flex-wrap overflow-hidden relative">
+        <div className="flex flex-wrap overflow-auto relative">
             <Tabs
                 aria-label="Size Options"
                 selectedKey={selectedSize}
@@ -34,10 +34,10 @@ const SizeSelector = ({ onSelect, sizes }) => {
                 variant="light"
                 color="primary"
                 radius="full"
-                className='flex flex-wrap w-full'
+                className='overflow-auto w-full'
             >
                 {(item) => (
-                    <Tab key={item.key} title={item.label} className="flex-auto">
+                    <Tab key={item.key} title={item.label} className="flex-auto text-xs md:text-lg">
                         {/* Contenido del tab */}
                     </Tab>
                 )}
