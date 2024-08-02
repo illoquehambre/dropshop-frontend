@@ -129,9 +129,9 @@ export default function ProductDetailsCard({ result }) {
                 className="snipcart-add-item bg-gradient-to-tr from-sky-800/75 to-sky-600/75 text-white shadow-lg gap-4 hover:scale-110 font-semibold tex-lg xl:text-xl w-full sm:w-fit md:w-full xl:w-fit"
                 endContent={<CartPlus />}
                 size="lg"
-                data-item-id={selectedVariante && selectedVariante.id}
+                data-item-id={selectedVariante && selectedVariante.external_id}
                 data-item-price={selectedVariante && selectedVariante.retail_price}
-                //data-item-url={`/productos/${producto.id}`}
+                data-item-url={`/api/user/product/${selectedVariante.external_id}`}
                 data-item-description={selectedVariante && selectedVariante.name}
                 data-item-image={selectedVariante && selectedVariante.files[1].thumbnail_url}
                 data-item-name={selectedVariante && selectedVariante.name}
