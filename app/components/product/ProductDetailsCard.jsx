@@ -131,7 +131,7 @@ export default function ProductDetailsCard({ result }) {
                 size="lg"
                 data-item-id={selectedVariante && selectedVariante.external_id}
                 data-item-price={selectedVariante && selectedVariante.retail_price}
-                data-item-url={`/api/user/product/${selectedVariante.external_id}`}
+                data-item-url={selectedVariante && `/api/user/product/${selectedVariante.external_id}`}
                 data-item-description={selectedVariante && selectedVariante.name}
                 data-item-image={selectedVariante && selectedVariante.files[1].thumbnail_url}
                 data-item-name={selectedVariante && selectedVariante.name}
