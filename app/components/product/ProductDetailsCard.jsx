@@ -1,6 +1,6 @@
 'use client';
 import { Card, CardBody, Image, Button, Skeleton } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { HeartIcon } from "@/public/icons/HeartIcon";
 import { CartPlus } from "@/public/icons/CartPlus";
 import { Money } from "@/public/icons/Money";
@@ -10,23 +10,27 @@ import SizeGuide from '@/components/sizeGuide/SizeGuide'
 
 export default function ProductDetailsCard({ result }) {
   const producto = result.sync_product;
-  const variantes = result.sync_variants;
+  //const variantes = result.sync_variants
+  const variantes = useMemo(() => result.sync_variants.filter(variant => variant.availability_status === "active"), [result.sync_variants]);
 
-  console.log(result);
-  console.log(variantes);
+  //console.log(variantes);
 
   const [liked, setLiked] = useState(false);
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedVariante, setSelectedVariante] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log(selectedVariante);
 
-  const availableColors = [...new Set(variantes.map(variant => variant.color))];
-  const filteredColors = availableColors.filter(color => color !== null);
 
-  const availableSizes = [...new Set(variantes.map(variant => variant.size))];
-  const filteredSizes = availableSizes.filter(size => size !== null);
+  const availableColors = useMemo(() => {
+    const colors = [...new Set(variantes.map(variant => variant.color))];
+    return colors.filter(color => color !== null);
+  }, [variantes]);
+
+  const availableSizes = useMemo(() => {
+    const sizes = [...new Set(variantes.map(variant => variant.size))];
+    return sizes.filter(size => size !== null);
+  }, [variantes]);
 
   useEffect(() => {
     if (variantes.length > 0) {
@@ -45,6 +49,11 @@ export default function ProductDetailsCard({ result }) {
     if (selectedColor && selectedSize) {
       const nuevaVariante = variantes.find(variante => variante.color === selectedColor && variante.size === selectedSize);
       setSelectedVariante(nuevaVariante || null);
+      if (nuevaVariante.availability_status != "active") {
+        alert(`Este Producto con color: ${nuevaVariante.color} y talla: ${nuevaVariante.size} no está disponible en este momento. Por favor pruebe otra talla y/o color.`)
+      }
+      console.log(nuevaVariante);
+
     }
   }, [selectedColor, selectedSize, variantes]);
 
@@ -53,11 +62,74 @@ export default function ProductDetailsCard({ result }) {
   };
 
   const handleSizeSelect = (size) => {
+
     setSelectedSize(size);
   };
 
 
+  //Logica de comprobacion de la disponibilidad de un producto
+  /**
+   * Una vez se detecta el eventod e añadir un producto, se debe llamar 
+   * al método que comprueba en la API si está disponible.
+   * En caso de no estarlo, este se deberá eliminar del carrito y ejecutar un alert
+   * anunciando el problema existente.
+   */
 
+  /*
+ Snipcart.events.on('item.added', (cartItem) => {
+    console.log(cartItem);
+});
+*/
+  /*
+    const removeItemFromCart = async (uniqueId) => {
+      window.Snipcart.api.cart.items.remove(uniqueId);
+    };
+  
+    Snipcart.events.on('item.added', async (cartItem) => {
+      console.log(cartItem);
+      const variantId = cartItem.id;
+      console.log(variantId);
+  
+      const response = await fetch(`/api/user/variant/${variantId}`);
+      const { result } = await response.json()
+      console.log(result);
+  
+  
+      if (result.availability_status) {
+        console.log("no está disponible");
+        // Producto no disponible, remover del carrito
+        await removeItemFromCart(cartItem.uniqueId);
+  
+      }
+  
+  
+  
+    });
+  
+  */
+
+
+  useEffect(() => {
+    Snipcart.events.on('item.added', (cartItem) => {
+      console.log(cartItem);
+    });
+    Snipcart.events.on('item.updated', (cartItem) => {
+      console.log(cartItem);
+    });
+    Snipcart.events.on('summary.checkout_clicked', () => {
+      console.log('checkout clicked')
+    });
+  });
+
+  /**
+   * Lo que se debe hacer es añadir un eventliner en un useEffect para cuando se añade un producto o se habre el carrito
+   * Este llamará a un método que:
+   *   1: Recopilará los ids de todos los elementos del carrito
+   *   2: Realizará un bucle recorriendo los id y realizando una peticion por cada uno
+   *   3: Devolverá un array con los ids de los productos que no estén disponibles
+   *   4: Se eliminarán del carrito aquelos productos no disponibles
+   *   5: Se realizará un alert anunciando los productos eliminados
+   */
 
 
   return (
@@ -80,7 +152,7 @@ export default function ProductDetailsCard({ result }) {
               />
             </Skeleton>
             <Skeleton isLoaded={!loading} className="rounded-lg">
-              <ColorSelector onSelect={handleColorSelect} colors={filteredColors}></ColorSelector>
+              <ColorSelector onSelect={handleColorSelect} colors={availableColors}></ColorSelector>
             </Skeleton>
           </div>
 
@@ -118,20 +190,22 @@ export default function ProductDetailsCard({ result }) {
 
               <Skeleton isLoaded={!loading} className="rounded-lg">
 
-                <SizeSelector onSelect={handleSizeSelect} sizes={filteredSizes}></SizeSelector>
+                <SizeSelector onSelect={handleSizeSelect} sizes={availableSizes}></SizeSelector>
               </Skeleton>
 
 
             </div>
             <div className="flex flex-col sm:flex-row  md:flex-col xl:flex-row gap-4 items-center justify-between xl:mr-6 mt-3 ">
+
               <Button
+                isDisabled={selectedVariante && selectedVariante.availability_status != "active"}
                 radius="full"
-                className="snipcart-add-item bg-gradient-to-tr from-sky-800/75 to-sky-600/75 text-white shadow-lg gap-4 hover:scale-110 font-semibold tex-lg xl:text-xl w-full sm:w-fit md:w-full xl:w-fit"
+                className={`snipcart-add-item bg-gradient-to-tr from-sky-800/75 to-sky-600/75 text-white shadow-lg gap-4 hover:scale-110 font-semibold tex-lg xl:text-xl w-full sm:w-fit md:w-full xl:w-fit`}
                 endContent={<CartPlus />}
                 size="lg"
                 data-item-id={selectedVariante && selectedVariante.external_id}
                 data-item-price={selectedVariante && selectedVariante.retail_price}
-                data-item-url={selectedVariante && `/api/user/product/${selectedVariante.external_id}`}
+                data-item-url={selectedVariante && `/api/user/variant/checkProduct/${selectedVariante.external_id}`}
                 data-item-description={selectedVariante && selectedVariante.name}
                 data-item-image={selectedVariante && selectedVariante.files[1].thumbnail_url}
                 data-item-name={selectedVariante && selectedVariante.name}
@@ -139,6 +213,7 @@ export default function ProductDetailsCard({ result }) {
                 Añadir al carrito
               </Button>
               <Button
+                isDisabled={selectedVariante && selectedVariante.availability_status != "active"}
                 radius="full"
                 size="lg"
                 className="bg-gradient-to-tr from-cyan-400 to-cyan-300/75 hover:scale-110 text-white shadow-lg gap-2 font-semibold  tex-lg xl:text-xl w-full sm:w-fit md:w-full xl:w-fit"

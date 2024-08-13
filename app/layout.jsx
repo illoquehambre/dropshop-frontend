@@ -18,12 +18,9 @@ export const metadata = {
 const BEARER_TOKEN = process.env.NEXT_PUBLIC_SNIPCART_API_KEY;
 
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({children}) {
 
+  
 
   
 

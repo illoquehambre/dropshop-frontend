@@ -19,10 +19,8 @@ export const  processSizeGuide= (data) => {
 
                 // Añadir la medida al objeto correspondiente
                 sizeObject[measurement.type_label.toLowerCase()] = value.value;
-                console.log(sizeObject);
             });
         });
     });
-    console.log(sizeGuide);
     return sizeGuide;
 }
