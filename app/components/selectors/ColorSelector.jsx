@@ -13,13 +13,10 @@ const ColorSelector = ({ onSelect, colors }) => {
     
     const handleColorClick = (color) => {
         setSelectedColor(color);
-        console.log(color);
         onSelect(color)
     };
 
-    console.log(colors);
     const colorsCodes = colors.map(color => getColorCode(color))
-    console.log(colorsCodes);
     return (
         <div className="flex justify-left items-center my-3 ">
             {colorsCodes.length > 0 && colorsCodes.map((color) => (

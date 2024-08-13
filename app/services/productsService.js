@@ -98,7 +98,7 @@ export const addCategoryToProductDetails = async (productDetails: ProductDetails
 
 */
 
-export const getCheapestVariante = async (variants: SyncVariant[]) => {
+export const getCheapestVariante = async (variants) => {
 
     try {
    
@@ -113,4 +113,15 @@ export const getCheapestVariante = async (variants: SyncVariant[]) => {
         console.error('Error:', err);
     }
 }  
+
+export const checkVariantAvailable = async (id)=>{
+
+    try{
+        const {result} = await fetch(`/api/variant/${id}`)
+
+        return result.availability_status=="active"
+    }catch (err) {
+        console.error('Error:', err);
+    }
+}
 

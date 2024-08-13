@@ -26,6 +26,6 @@
       "@/dto/*": ["./app/dto/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/lib/mongodb.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/lib/mongodb.js", "app/services/productsService.js", "app/layout.jsx"],
   "exclude": ["node_modules"]
 }

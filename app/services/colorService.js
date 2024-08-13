@@ -67,8 +67,6 @@ const colorMap = {
 
   
   export const getColorCode = (colorName) => {
-    console.log(colorName.trim());
-    console.log(colorMap[colorName.trim()]);
     return {
         "code": `${colorMap[colorName] || '#000000'}`,
         "name": colorName
