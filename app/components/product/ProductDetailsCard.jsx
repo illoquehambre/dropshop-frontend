@@ -3,7 +3,7 @@ import { Card, CardBody, Image, Button, Skeleton } from "@nextui-org/react";
 import { useEffect, useMemo, useState } from "react";
 import { HeartIcon } from "@/public/icons/HeartIcon";
 import { CartPlus } from "@/public/icons/CartPlus";
-import { Money } from "@/public/icons/Money";
+import { Money } from "@/public/icons/money"
 import ColorSelector from '@/components/selectors/ColorSelector';
 import SizeSelector from '@/components/selectors/SizeSelector';
 import SizeGuide from '@/components/sizeGuide/SizeGuide'
@@ -20,6 +20,7 @@ export default function ProductDetailsCard({ result }) {
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedVariante, setSelectedVariante] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [nonAvailableItems, setNonAvailableItems] = useState([]);
 
 
   const availableColors = useMemo(() => {
@@ -107,27 +108,61 @@ export default function ProductDetailsCard({ result }) {
     });
   
   */
+  const checkCartPorducts = () => {
+    setNonAvailableItems([])
+    const { items } = Snipcart.store.getState().cart.items
+    console.log(items);
 
+    items.map(async (item) => {
+      console.log(item.id);
 
+      fetch(`/api/user/variant/${item.id}`)
+        .then(response => response.json())
+        .then(async data => {
+          console.log(data);
+          console.log(data.result.availability_status);
+          if (data.result.availability_status != "active") {
+            try {
+              await Snipcart.api.cart.items.remove(item.uniqueId);
+              console.log('eliminado');
+              setNonAvailableItems(nonAvailableItems.push(item))
+            } catch (error) {
+              console.error(error)
+            }
+          }
+
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+
+        });
+    })
+    console.log(nonAvailableItems);
+    if (nonAvailableItems.length > 0) {
+      alert("Algunos de los productos de su carrito no estan disponibles en este momento.\nHan sido eliminados, por favor disculpe las molestias e intente comprarlos en otro momento.")
+
+    }
+  }
+  //Genera los tests de este useEffect
   useEffect(() => {
-    Snipcart.events.on('item.added', (cartItem) => {
-      console.log(cartItem);
+    Snipcart.events.on('item.added', checkCartPorducts());
+    Snipcart.events.on('item.updated', checkCartPorducts());
+    Snipcart.events.on('summary.checkout_clicked', checkCartPorducts());
+    Snipcart.events.on('cart.confirmed', (cartConfirmResponse) => {
+      //El pago se ha realizado sin problemas
+      console.log(cartConfirmResponse);
     });
-    Snipcart.events.on('item.updated', (cartItem) => {
-      console.log(cartItem);
-    });
-    Snipcart.events.on('summary.checkout_clicked', () => {
-      console.log('checkout clicked')
-    });
-  });
+
+  }, []);
 
   /**
    * Lo que se debe hacer es añadir un eventliner en un useEffect para cuando se añade un producto o se habre el carrito
    * Este llamará a un método que:
-   *   1: Recopilará los ids de todos los elementos del carrito
-   *   2: Realizará un bucle recorriendo los id y realizando una peticion por cada uno
+   *   
+   *   1: Realizará un bucle recorriendo los elementos del carrito y mandado los id, realizando una peticion por cada uno
+   *   2: comprobará la disponibildiad del producto y añadirá su id a un array si este no está disponible
    *   3: Devolverá un array con los ids de los productos que no estén disponibles
-   *   4: Se eliminarán del carrito aquelos productos no disponibles
+   *   4: Se eliminarán del carrito aquelos productos no disponibles recorriendo el array anterior
    *   5: Se realizará un alert anunciando los productos eliminados
    */
 
