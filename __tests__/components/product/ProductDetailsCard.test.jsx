@@ -195,7 +195,7 @@ describe('ProductDetailsCard', () => {
             expect(screen.getByText('100 €')).toBeInTheDocument();
         });
     })
-    /*
+    
         test('debe manejar el evento "item.added" de Snipcart y verificar disponibilidad', async () => {
             // Mock de datos del carrito
             mockSnipcart.store.getState.mockReturnValue({
@@ -223,7 +223,7 @@ describe('ProductDetailsCard', () => {
                 expect(mockSnipcart.api.cart.items.remove).toHaveBeenCalledWith('unique-1');
             });
         });
-    
+    /*
         test('debe manejar el evento "item.updated" de Snipcart y verificar disponibilidad', async () => {
             // Mock de datos del carrito
             mockSnipcart.store.getState.mockReturnValue({
