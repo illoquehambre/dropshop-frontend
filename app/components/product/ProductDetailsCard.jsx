@@ -3,7 +3,7 @@ import { Card, CardBody, Image, Button, Skeleton } from "@nextui-org/react";
 import { useEffect, useMemo, useState } from "react";
 import { HeartIcon } from "@/public/icons/HeartIcon";
 import { CartPlus } from "@/public/icons/CartPlus";
-import { Money } from "@/public/icons/money"
+import { Money } from "@/public/icons/Money"
 import ColorSelector from '@/components/selectors/ColorSelector';
 import SizeSelector from '@/components/selectors/SizeSelector';
 import SizeGuide from '@/components/sizeGuide/SizeGuide'
