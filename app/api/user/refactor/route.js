@@ -1,21 +1,20 @@
 const BEARER_TOKEN = process.env.NEXT_PUBLIC_BEARER_TOKEN;
 
 export async function GET(request) {
-    console.log(request);
-    console.log(request.url);
+
     const params = new URL(request.url).searchParams;
     const categories = params.get('category');
     console.log(categories);
     try {
         let response;
         if (!categories || categories==null) {
-            console.log("entra");
             response = await fetch(`https://api.printful.com/store/products`, {
                 headers: {
                     'Authorization': `Bearer ${BEARER_TOKEN}`,
                     'Content-Type': 'application/json',
                 },
             });
+            
         } else {
             const categoryList = categories.split(',').map(id => id.trim());
             console.log(`Fetching products for categories: ${categoryList}`);
