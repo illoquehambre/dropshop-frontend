@@ -49,6 +49,7 @@ const SizeGuide = ({ result }) => {
                         backdrop="opaque"
                         isOpen={isOpen}
                         onOpenChange={onOpenChange}
+                   
                         classNames={{
                             body: "py-6",
                             backdrop: "bg-[#292f46]/50 backdrop-opacity-40",
