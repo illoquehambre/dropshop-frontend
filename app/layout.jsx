@@ -18,32 +18,32 @@ export const metadata = {
 const BEARER_TOKEN = process.env.NEXT_PUBLIC_SNIPCART_API_KEY;
 
 
-export default function RootLayout({children}) {
+export default function RootLayout({ children }) {
 
-  
 
-  
+
+
 
   return (
     <html lang="es">
       <head>
-      <link rel="preconnect" href="<https://app.snipcart.com>"/>
-      <link rel="preconnect" href="<https://cdn.snipcart.com>"/>
+        <link rel="preconnect" href="<https://app.snipcart.com>" />
+        <link rel="preconnect" href="<https://cdn.snipcart.com>" />
         <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.2.1/default/snipcart.css" />
       </head>
-      <body className={inter.className} >
+      <body className={`${inter.className} overflow-y-auto `} >
         <Providers>
-          <Script src="https://cdn.snipcart.com/themes/v3.2.1/default/snipcart.js"  strategy="beforeInteractive" />
+          {/*<Script src="https://cdn.snipcart.com/themes/v3.2.1/default/snipcart.js"  strategy="beforeInteractive" />}
           <div hidden  id="snipcart" data-api-key={BEARER_TOKEN} data-config-modal-style="side"  />
 
           {/** <script src="https://cdn.snipcart.com/themes/v3.2.0/default/snipcart.js"></script>
           <div hidden id="snipcart" data-api-key={BEARER_TOKEN}></div>*/}
 
-          <header  >
-         
-                <NavBar></NavBar>
-        
-            
+          <header class="sticky top-0 z-30">
+
+            <NavBar></NavBar>
+
+
           </header>
           <main className="w-5/6 self-center justify-self-center">
 

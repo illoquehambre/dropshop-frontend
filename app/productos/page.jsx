@@ -55,7 +55,7 @@ const LoadingSkeleton = () => {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-y-7 gap-x-3 min-h-screen">
       {[...Array(8)].map((_, i) => (
-        <Skeleton key={i} height={200} width="100%" />
+        <Skeleton key={i} height={200} width="100%" />  
       ))}
     </div>
   );

@@ -7,12 +7,12 @@ import { Money } from "@/public/icons/Money"
 import ColorSelector from '@/components/selectors/ColorSelector';
 import SizeSelector from '@/components/selectors/SizeSelector';
 import SizeGuide from '@/components/sizeGuide/SizeGuide'
-
+import {useCart} from '@/hooks/useCart'
 export default function ProductDetailsCard({ result }) {
   const producto = result.sync_product;
   //const variantes = result.sync_variants
   const variantes = useMemo(() => result.sync_variants.filter(variant => variant.availability_status === "active"), [result.sync_variants]);
-
+  const {addToCart} = useCart()
   //console.log(variantes);
 
   const [liked, setLiked] = useState(false);
@@ -108,6 +108,7 @@ export default function ProductDetailsCard({ result }) {
     });
   
   */
+ /*
   const checkCartPorducts = () => {
     setNonAvailableItems([])
     const { items } = Snipcart.store.getState().cart.items
@@ -142,8 +143,9 @@ export default function ProductDetailsCard({ result }) {
       alert("Algunos de los productos de su carrito no estan disponibles en este momento.\nHan sido eliminados, por favor disculpe las molestias e intente comprarlos en otro momento.")
 
     }
-  }
+  }*/
   //Genera los tests de este useEffect
+  /*
   useEffect(() => {
     Snipcart.events.on('item.added', checkCartPorducts());
     Snipcart.events.on('item.updated', checkCartPorducts());
@@ -154,7 +156,7 @@ export default function ProductDetailsCard({ result }) {
     });
 
   }, []);
-
+*/
   /**
    * Lo que se debe hacer es añadir un eventliner en un useEffect para cuando se añade un producto o se habre el carrito
    * Este llamará a un método que:
@@ -233,17 +235,13 @@ export default function ProductDetailsCard({ result }) {
             <div className="flex flex-col sm:flex-row  md:flex-col xl:flex-row gap-4 items-center justify-between xl:mr-6 mt-3 ">
 
               <Button
+                onClick={()=> addToCart(selectedVariante)}
                 isDisabled={selectedVariante && selectedVariante.availability_status != "active"}
                 radius="full"
-                className={`snipcart-add-item bg-gradient-to-tr from-sky-800/75 to-sky-600/75 text-white shadow-lg gap-4 hover:scale-110 font-semibold tex-lg xl:text-xl w-full sm:w-fit md:w-full xl:w-fit`}
+                className={` bg-gradient-to-tr from-sky-800/75 to-sky-600/75 text-white shadow-lg gap-4 hover:scale-110 font-semibold tex-lg xl:text-xl w-full sm:w-fit md:w-full xl:w-fit`}
                 endContent={<CartPlus />}
                 size="lg"
-                data-item-id={selectedVariante && selectedVariante.external_id}
-                data-item-price={selectedVariante && selectedVariante.retail_price}
-                data-item-url={selectedVariante && `/api/user/variant/checkProduct/${selectedVariante.external_id}`}
-                data-item-description={selectedVariante && selectedVariante.name}
-                data-item-image={selectedVariante && selectedVariante.files[1].thumbnail_url}
-                data-item-name={selectedVariante && selectedVariante.name}
+                
               >
                 Añadir al carrito
               </Button>
