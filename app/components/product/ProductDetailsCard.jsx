@@ -7,12 +7,12 @@ import { Money } from "@/public/icons/Money"
 import ColorSelector from '@/components/selectors/ColorSelector';
 import SizeSelector from '@/components/selectors/SizeSelector';
 import SizeGuide from '@/components/sizeGuide/SizeGuide'
-
+import { useCart } from '@/hooks/useCart'
 export default function ProductDetailsCard({ result }) {
   const producto = result.sync_product;
   //const variantes = result.sync_variants
   const variantes = useMemo(() => result.sync_variants.filter(variant => variant.availability_status === "active"), [result.sync_variants]);
-
+  const { addToCart } = useCart()
   //console.log(variantes);
 
   const [liked, setLiked] = useState(false);
@@ -108,42 +108,44 @@ export default function ProductDetailsCard({ result }) {
     });
   
   */
-  const checkCartPorducts = () => {
-    setNonAvailableItems([])
-    const { items } = Snipcart.store.getState().cart.items
-    console.log(items);
-
-    items.map(async (item) => {
-      console.log(item.id);
-
-      fetch(`/api/user/variant/${item.id}`)
-        .then(response => response.json())
-        .then(async data => {
-          console.log(data);
-          console.log(data.result.availability_status);
-          if (data.result.availability_status != "active") {
-            try {
-              await Snipcart.api.cart.items.remove(item.uniqueId);
-              console.log('eliminado');
-              setNonAvailableItems(nonAvailableItems.push(item))
-            } catch (error) {
-              console.error(error)
-            }
-          }
-
-        })
-        .catch(error => {
-          console.error('Error fetching data:', error);
-
-        });
-    })
-    console.log(nonAvailableItems);
-    if (nonAvailableItems.length > 0) {
-      alert("Algunos de los productos de su carrito no estan disponibles en este momento.\nHan sido eliminados, por favor disculpe las molestias e intente comprarlos en otro momento.")
-
-    }
-  }
+  /*
+   const checkCartPorducts = () => {
+     setNonAvailableItems([])
+     const { items } = Snipcart.store.getState().cart.items
+     console.log(items);
+ 
+     items.map(async (item) => {
+       console.log(item.id);
+ 
+       fetch(`/api/user/variant/${item.id}`)
+         .then(response => response.json())
+         .then(async data => {
+           console.log(data);
+           console.log(data.result.availability_status);
+           if (data.result.availability_status != "active") {
+             try {
+               await Snipcart.api.cart.items.remove(item.uniqueId);
+               console.log('eliminado');
+               setNonAvailableItems(nonAvailableItems.push(item))
+             } catch (error) {
+               console.error(error)
+             }
+           }
+ 
+         })
+         .catch(error => {
+           console.error('Error fetching data:', error);
+ 
+         });
+     })
+     console.log(nonAvailableItems);
+     if (nonAvailableItems.length > 0) {
+       alert("Algunos de los productos de su carrito no estan disponibles en este momento.\nHan sido eliminados, por favor disculpe las molestias e intente comprarlos en otro momento.")
+ 
+     }
+   }*/
   //Genera los tests de este useEffect
+  /*
   useEffect(() => {
     Snipcart.events.on('item.added', checkCartPorducts());
     Snipcart.events.on('item.updated', checkCartPorducts());
@@ -154,7 +156,7 @@ export default function ProductDetailsCard({ result }) {
     });
 
   }, []);
-
+*/
   /**
    * Lo que se debe hacer es añadir un eventliner en un useEffect para cuando se añade un producto o se habre el carrito
    * Este llamará a un método que:
@@ -232,27 +234,23 @@ export default function ProductDetailsCard({ result }) {
             </div>
 
           </div>
-
         </div>
         <div className="grid grid-flow-row grid-cols-12 mx-12 mt-3 mb-6 ">
-
           <div className="lg:col-span-6  ">
 
           </div>
           <div className="col-span-12 lg:col-span-6 flex flex-col sm:flex-row  gap-5 lg:gap-12 items-center justify-between md:justify-end ">
+
+
             <Button
+              onClick={() => addToCart(selectedVariante)}
               isDisabled={selectedVariante && selectedVariante.availability_status != "active"}
               radius="full"
-              className={`snipcart-add-item bg-gradient-to-tr   text-black  border-black shadow-lg gap-4 hover:scale-110 
+              className={` bg-gradient-to-tr   text-black  border-black shadow-lg gap-4 hover:scale-110 
                   font-semibold tex-lg xl:text-xl w-full sm:w-fit md:w-full xl:w-fit  from-amber-400 to-amber-300/75 hover:border-0`}
               endContent={<CartPlus />}
               size="lg"
-              data-item-id={selectedVariante && selectedVariante.external_id}
-              data-item-price={selectedVariante && selectedVariante.retail_price}
-              data-item-url={selectedVariante && `/api/user/variant/checkProduct/${selectedVariante.external_id}`}
-              data-item-description={selectedVariante && selectedVariante.name}
-              data-item-image={selectedVariante && selectedVariante.files[1].thumbnail_url}
-              data-item-name={selectedVariante && selectedVariante.name}
+
             >
               Añadir al carrito
             </Button>
@@ -265,9 +263,8 @@ export default function ProductDetailsCard({ result }) {
             >
               Comprar ahora
             </Button>
+            </div>
           </div>
-
-        </div>
       </CardBody>
     </Card>
   );
