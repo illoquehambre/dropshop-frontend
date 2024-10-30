@@ -31,7 +31,7 @@ export const NavBar = () => {
   }
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} className="bg-zinc-950/85 h-24 z-10 px-2  sm:px-12" maxWidth="full" height={'7rem'} >
+    <Navbar onMenuOpenChange={setIsMenuOpen} className="bg-neutral-900/90 h-24 z-10 px-2  sm:px-12" maxWidth="full" height={'7rem'} >
       <NavbarContent className="gap-5 md:gap-14 justify-between" >
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
