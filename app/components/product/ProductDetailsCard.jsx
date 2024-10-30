@@ -170,17 +170,17 @@ export default function ProductDetailsCard({ result }) {
   return (
     <Card
       isBlurred
-      className="border-none bg-background/60 dark:bg-default-100/50 w-100 my-6 "
+      className="border-none bg-zinc-100/75 dark:bg-zinc-800/50 w-100 my-6 "
       shadow="sm"
     >
-      <CardBody className="overflow-clip">
-        <div className="grid grid-cols-6 md:grid-cols-12 gap-6 md:gap-4 items-center justify-center overflow-auto">
-          <div className="relative col-span-8 md:col-span-6">
+      <CardBody className="overflow-clip ">
+        <div className="grid grid-cols-6  md:grid-cols-12 gap-6 md:gap-4 items-center justify-center">
+          <div className="relative col-span-8 md:col-span-6 order-2 md:order-1">
             <Skeleton isLoaded={!loading} className="rounded-lg">
               <Image
                 alt="Album cover"
-                className="object-cover"
-                height={800}
+                className="object-cover h-72 sm:h-96 md:h-full"
+
                 shadow="md"
                 src={selectedVariante && selectedVariante.files[1].preview_url}
                 width="100%"
@@ -191,7 +191,7 @@ export default function ProductDetailsCard({ result }) {
             </Skeleton>
           </div>
 
-          <div className="flex flex-col col-span-8 md:col-span-6 h-full justify-between p-8">
+          <div className="flex flex-col col-span-8 md:col-span-6 h-full gap-10 p-8 order-1">
             <div className="flex justify-between items-start">
               <div className="flex flex-col sm:flex-row sm:items-center items-start md:items-start md:flex-col gap-12 md:gap-6 ">
                 <Skeleton isLoaded={!loading} className="rounded-lg ">
@@ -215,49 +215,58 @@ export default function ProductDetailsCard({ result }) {
                 />
               </Button>
             </div>
-            <div className="flex flex-col flex-wrap gap-4 md:gap-8 mt-5 overflow-auto  items-start  ">
-              <div className="flex flex-col sm:flex-row gap-5 sm:items-center items-start">
+            <div className="flex flex-col flex-wrap gap-4 md:gap-8 mt-5  items-start  ">
+              <div className="flex flex-col flex-wrap gap-4 md:gap-8 mt-5 relative overflow-x-auto w-full items-start  ">
                 <span className="text-black text-lg font-medium">Seleccione una talla: </span>
                 <Skeleton isLoaded={!loading} className="rounded-lg">
-                  <SizeGuide result={result}></SizeGuide>
+
+                  <SizeSelector onSelect={handleSizeSelect} sizes={availableSizes}></SizeSelector>
                 </Skeleton>
               </div>
 
               <Skeleton isLoaded={!loading} className="rounded-lg">
-
-                <SizeSelector onSelect={handleSizeSelect} sizes={availableSizes}></SizeSelector>
+                <SizeGuide result={result}></SizeGuide>
               </Skeleton>
 
 
             </div>
-            <div className="flex flex-col sm:flex-row  md:flex-col xl:flex-row gap-4 items-center justify-between xl:mr-6 mt-3 ">
 
-              <Button
-                isDisabled={selectedVariante && selectedVariante.availability_status != "active"}
-                radius="full"
-                className={`snipcart-add-item bg-gradient-to-tr from-sky-800/75 to-sky-600/75 text-white shadow-lg gap-4 hover:scale-110 font-semibold tex-lg xl:text-xl w-full sm:w-fit md:w-full xl:w-fit`}
-                endContent={<CartPlus />}
-                size="lg"
-                data-item-id={selectedVariante && selectedVariante.external_id}
-                data-item-price={selectedVariante && selectedVariante.retail_price}
-                data-item-url={selectedVariante && `/api/user/variant/checkProduct/${selectedVariante.external_id}`}
-                data-item-description={selectedVariante && selectedVariante.name}
-                data-item-image={selectedVariante && selectedVariante.files[1].thumbnail_url}
-                data-item-name={selectedVariante && selectedVariante.name}
-              >
-                Añadir al carrito
-              </Button>
-              <Button
-                isDisabled={selectedVariante && selectedVariante.availability_status != "active"}
-                radius="full"
-                size="lg"
-                className="bg-gradient-to-tr from-cyan-400 to-cyan-300/75 hover:scale-110 text-white shadow-lg gap-2 font-semibold  tex-lg xl:text-xl w-full sm:w-fit md:w-full xl:w-fit"
-                endContent={<Money />}
-              >
-                Comprar ahora
-              </Button>
-            </div>
           </div>
+
+        </div>
+        <div className="grid grid-flow-row grid-cols-12 mx-12 mt-3 mb-6 ">
+
+          <div className="lg:col-span-6  ">
+
+          </div>
+          <div className="col-span-12 lg:col-span-6 flex flex-col sm:flex-row  gap-5 lg:gap-12 items-center justify-between md:justify-end ">
+            <Button
+              isDisabled={selectedVariante && selectedVariante.availability_status != "active"}
+              radius="full"
+              className={`snipcart-add-item bg-gradient-to-tr   text-black  border-black shadow-lg gap-4 hover:scale-110 
+                  font-semibold tex-lg xl:text-xl w-full sm:w-fit md:w-full xl:w-fit  from-amber-400 to-amber-300/75 hover:border-0`}
+              endContent={<CartPlus />}
+              size="lg"
+              data-item-id={selectedVariante && selectedVariante.external_id}
+              data-item-price={selectedVariante && selectedVariante.retail_price}
+              data-item-url={selectedVariante && `/api/user/variant/checkProduct/${selectedVariante.external_id}`}
+              data-item-description={selectedVariante && selectedVariante.name}
+              data-item-image={selectedVariante && selectedVariante.files[1].thumbnail_url}
+              data-item-name={selectedVariante && selectedVariante.name}
+            >
+              Añadir al carrito
+            </Button>
+            <Button
+              isDisabled={selectedVariante && selectedVariante.availability_status != "active"}
+              radius="full"
+              size="lg"
+              className="bg-gradient-to-tr from-orange-500 to-amber-400/75 hover:scale-110 text-white shadow-lg gap-2 font-semibold  tex-lg xl:text-xl w-full sm:w-fit md:w-full xl:w-fit"
+              endContent={<Money />}
+            >
+              Comprar ahora
+            </Button>
+          </div>
+
         </div>
       </CardBody>
     </Card>
