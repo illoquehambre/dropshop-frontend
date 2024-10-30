@@ -22,7 +22,7 @@ export const  processSizeGuide= (data) => {
                 const sizeObject = sizeGuide.find(s => s.size === value.size);
 
                 // Añadir la medida al objeto correspondiente
-                sizeObject[measurement.type_label.toLowerCase()] = value.value;
+                sizeObject[measurement.type_label.toLowerCase()] = value.value?value.value:{min_value:value.min_value,max_value:value.max_value};
             });
         });
     });
