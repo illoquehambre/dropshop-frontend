@@ -4,7 +4,7 @@ export async function GET(request) {
 
     const params = new URL(request.url).searchParams;
     const categories = params.get('category');
-    console.log(categories);
+   
     try {
         let response;
         if (!categories || categories==null) {
@@ -27,7 +27,6 @@ export async function GET(request) {
             });
         }
 
-        console.log(response);
         if (!response.ok) {
             const errorData = await response.json();
             return new Response(JSON.stringify(errorData), { status: response.status, headers: { 'Content-Type': 'application/json' } });

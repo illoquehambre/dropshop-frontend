@@ -31,38 +31,40 @@ export const NavBar = () => {
   }
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen} className="bg-sky-800/75 h-24 z-10 px-2  sm:px-12" maxWidth="full" height={'6rem'} >
-      <NavbarContent className="gap-14">
+    <Navbar onMenuOpenChange={setIsMenuOpen} className="bg-neutral-900/90 h-24 z-10 px-2  sm:px-12" maxWidth="full" height={'7rem'} >
+      <NavbarContent className="gap-5 md:gap-14 justify-between" >
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden flex"
+          className="md:hidden flex"
         />
-        <NavbarBrand className="gap-5 flex-grow-0 basis-auto" >
-          <Image className="rounded-full h-20 hidden sm:inline" src="/logo.jpg" alt="Logo" />
+        <NavbarBrand className="gap-5  flex-grow-0 basis-auto" >
+          <Image className="rounded-full  h-12 md:h-14 lg:h-20 xl:h-24" src="/logo3.jpg" alt="Logo" />
+
+          {/*
           <div className="gap-3 sm:gap-1  flex flex-col">
             <p className="font-bold text-inherit text-xs sm:text-md">Angeles Batista</p>
             <p className="font-bold text-inherit text-md sm:text-2xl">Arts & Crafts</p>
           </div>
+          */}
 
         </NavbarBrand>
-        <NavbarItem className="hidden sm:flex">
+        <NavbarItem className="hidden md:flex">
           <Link color="foreground" href="/">
-            <span className="text-2xl font-semibold">
+            <span className="text-2xl font-semibold text-white">
               Home
             </span>
 
           </Link>
         </NavbarItem>
 
-        <Dropdown backdrop="" className="hidden sm:flex">
-          <NavbarItem className="hidden sm:flex">
+        <Dropdown backdrop="" className="hidden md:flex">
+          <NavbarItem className="hidden md:flex">
             <DropdownTrigger>
               <Button
                 disableRipple
-                className="p-0 bg-transparent data-[hover=true]:bg-transparent text-2xl font-semibold"
+                className="p-0 bg-transparent data-[hover=true]:bg-transparent text-2xl text-white font-semibold"
                 endContent={icons.chevron}
                 radius="sm"
-                variant="light"
               >
                 Categorias
               </Button>
@@ -78,6 +80,7 @@ export const NavBar = () => {
             <DropdownItem
               key="Camisetas"
               href="/productos?category=24"
+
 
             //startContent={icons.scale}
             >
@@ -107,16 +110,16 @@ export const NavBar = () => {
 
           </DropdownMenu>
         </Dropdown>
-      </NavbarContent>
 
 
-      <NavbarContent justify="end">
-        <NavbarItem className=" gap-5 justify-end ">
-          <Badge color="danger" shape="circle" content='1'  >
-            <Cart></Cart>
-          </Badge>
 
-          {/*<button className=" flex gap-5 items-center">
+        <NavbarContent justify="end">
+          <NavbarItem className=" gap-5 justify-end ">
+            <Badge color="danger" shape="circle" content='1'  >
+              <Cart></Cart>
+            </Badge>
+
+            {/*<button className=" flex gap-5 items-center">
             
 
 
@@ -124,9 +127,11 @@ export const NavBar = () => {
             <span className="snipcart-total-price font-medium text-lg hidden md:inline ">0.00</span>
           </button>*/}
 
-        </NavbarItem>
+          </NavbarItem>
 
+        </NavbarContent>
       </NavbarContent>
+
       <NavbarMenu>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
