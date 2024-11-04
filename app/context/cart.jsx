@@ -1,4 +1,4 @@
-import { createContext, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 
 //1. crear contexto
 export const CartContext = createContext()
@@ -28,14 +28,19 @@ const reducer = (state, action) => {
             ]
         }
         case 'REMOVE_FROM_CART': {
+            console.log('vacia uno del carrito');
             const { id } = actionPayload
             return state.filter(item => item.id !== id)
 
         }
         case 'CLEAR_CART': {
+            console.log('vacia carrito');
+            
             return initialState
         }
         case 'REMOVE_ONE_FROM_CART': {
+            
+            console.log('vacia 1 del carrito');
             const { id } = actionPayload
             const productInCartIndex = state.findIndex(item => item.id === id)
 
@@ -53,6 +58,9 @@ const reducer = (state, action) => {
             //producto no está en el carrito
             throw new Error('Este producto no se encuentra en su carrito.')
         }
+        case 'INIT_CART': {
+            return actionPayload || initialState;
+        }
 
         default:
             break;
@@ -62,7 +70,27 @@ const reducer = (state, action) => {
 //2. crear provider
 export function CartProvider({ children }) {
     const [state, dispatch] = useReducer(reducer, initialState)
+    useEffect(() => {
+        const storedCart = localStorage.getItem('cart');
+        
+        console.log(JSON.parse(storedCart));
+        
+        if (storedCart) {
+            dispatch({ type: 'INIT_CART', payload: JSON.parse(storedCart) });
 
+        }
+    }, []);
+
+    // Guardar carrito en localStorage cuando cambie el estado
+    useEffect(() => {
+        console.log(state);
+        console.log(state.length);
+        if (state.length > 0) {
+            localStorage.setItem('cart', JSON.stringify(state));
+        } else {
+            localStorage.removeItem('cart');  // Eliminar si está vacío
+        }
+    }, [state]);
     const addToCart = product => dispatch({
         type: 'ADD_TO_CART',
         payload: product
