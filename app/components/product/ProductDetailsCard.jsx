@@ -247,7 +247,7 @@ export default function ProductDetailsCard({ result }) {
               isDisabled={selectedVariante && selectedVariante.availability_status != "active"}
               radius="full"
               className={` bg-gradient-to-tr   text-black  border-black shadow-lg gap-4 hover:scale-110 
-                  font-semibold tex-lg xl:text-xl w-full sm:w-fit md:w-full xl:w-fit  from-amber-400 to-amber-300/75 hover:border-0`}
+                  font-semibold tex-lg  w-full sm:w-fit md:w-full xl:w-fit  from-amber-400 to-amber-300/75 hover:border-0`}
               endContent={<CartPlus />}
               size="lg"
 
@@ -258,7 +258,7 @@ export default function ProductDetailsCard({ result }) {
               isDisabled={selectedVariante && selectedVariante.availability_status != "active"}
               radius="full"
               size="lg"
-              className="bg-gradient-to-tr from-orange-500 to-amber-400/75 hover:scale-110 text-white shadow-lg gap-2 font-semibold  tex-lg xl:text-xl w-full sm:w-fit md:w-full xl:w-fit"
+              className="bg-gradient-to-tr from-orange-500 to-amber-400/75 hover:scale-110 text-white shadow-lg gap-2 font-semibold  tex-lg  w-full sm:w-fit md:w-full xl:w-fit"
               endContent={<Money />}
             >
               Comprar ahora

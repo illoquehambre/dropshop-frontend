@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
           {/** <script src="https://cdn.snipcart.com/themes/v3.2.0/default/snipcart.js"></script>
           <div hidden id="snipcart" data-api-key={BEARER_TOKEN}></div>*/}
 
-          <header class="sticky top-0 z-30">
+          <header className="sticky top-0 z-30">
 
             <NavBar></NavBar>
 

@@ -1,4 +1,4 @@
-import { createContext, useReducer, useState } from "react";
+import { createContext, useReducer, useEffect } from "react";
 
 //1. crear contexto
 export const CartContext = createContext()
@@ -7,9 +7,13 @@ const initialState = []
 const reducer = (state, action) => {
     const { type: actionType, payload: actionPayload } = action
     switch (actionType) {
+        case 'INIT_CART': {
+            return actionPayload || initialState;
+        }
         case 'ADD_TO_CART': {
             const { id } = actionPayload
             const productInCartIndex = state.findIndex(item => item.id === id)
+            console.log(productInCartIndex);
 
             if (productInCartIndex >= 0) {
 
@@ -62,6 +66,22 @@ const reducer = (state, action) => {
 //2. crear provider
 export function CartProvider({ children }) {
     const [state, dispatch] = useReducer(reducer, initialState)
+    // Leer carrito desde localStorage
+    useEffect(() => {
+        const storedCart = localStorage.getItem('cart');
+        if (storedCart) {
+            dispatch({ type: 'INIT_CART', payload: JSON.parse(storedCart) });
+        }
+    }, []);
+
+    // Guardar carrito en localStorage cuando cambie el estado
+    useEffect(() => {
+        if (state.length > 0) {
+            localStorage.setItem('cart', JSON.stringify(state));
+        } else {
+            localStorage.removeItem('cart');  // Eliminar si está vacío
+        }
+    }, [state]);
 
     const addToCart = product => dispatch({
         type: 'ADD_TO_CART',
