@@ -2,12 +2,7 @@ import { Card, CardBody, Image, Button, Skeleton } from "@nextui-org/react";
 import { useState } from "react";
 
 export const CartItem = ({item, addToCart, removeOneFromCart,removeFromCart}) => {
-    console.log(item);
    
-
-
-
-
   return (
     <li className="flex px-5 justify-center">
 
@@ -44,7 +39,7 @@ export const CartItem = ({item, addToCart, removeOneFromCart,removeFromCart}) =>
                                 className="h-12 w-12"
                                 onPress={() => removeFromCart(item)}
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff2825" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" viewBox="0 0 24 24" strokeWidth="1.5" stroke="#ff2825" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M4 7l16 0" />
                                     <path d="M10 11l0 6" />

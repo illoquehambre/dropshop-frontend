@@ -5,7 +5,6 @@ import { CartItem } from '@/components/cart/CartItem'
 export default function Cart() {
     const [isOpen, setIsOpen] = useState(false);
     const { cart, clearCart, addToCart, removeOneFromCart, removeFromCart } = useCart()
-    console.log(cart);
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
@@ -47,7 +46,7 @@ export default function Cart() {
                 <ul className="bg-zinc-800 overflow-y-auto h-5/6 gap-3 flex flex-col">
                     {
                         cart.map((item) => (
-                            <CartItem item={item} addToCart={addToCart} removeOneFromCart={removeOneFromCart} removeFromCart={removeFromCart} />
+                            <CartItem item={item} addToCart={addToCart} removeOneFromCart={removeOneFromCart} removeFromCart={removeFromCart} key={item.id}/>
                         ))
                     }
                 </ul>

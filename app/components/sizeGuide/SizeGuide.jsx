@@ -14,11 +14,9 @@ const SizeGuide = ({ result }) => {
     useEffect(() => {
         if (result && id) {
             // Llamada al endpoint de la API
-            console.log(id);
             fetch(`/api/user/sizeGuide/${id}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     setSizeGuide(processSizeGuide(data));
                     setSizeImages(getSizeImages(data.result.size_tables));
 
