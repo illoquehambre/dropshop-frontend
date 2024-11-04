@@ -38,7 +38,7 @@ export const NavBar = () => {
           className="md:hidden flex"
         />
         <NavbarBrand className="gap-5  flex-grow-0 basis-auto" >
-          <Image className="rounded-full  h-12 md:h-14 lg:h-20 xl:h-24"  src="/logo3.jpg" alt="Logo" />
+          <Image className="rounded-full  h-12 md:h-14 lg:h-20 xl:h-24" src="/logo3.jpg" alt="Logo" />
 
           {/*
           <div className="gap-3 sm:gap-1  flex flex-col">
@@ -110,16 +110,16 @@ export const NavBar = () => {
 
           </DropdownMenu>
         </Dropdown>
-      </NavbarContent>
 
 
-      <NavbarContent justify="end">
-        <NavbarItem className=" gap-5 justify-end ">
-          <Badge color="danger" shape="circle" content='1'  >
-            <Cart></Cart>
-          </Badge>
 
-          {/*<button className=" flex gap-5 items-center">
+        <NavbarContent justify="end">
+          <NavbarItem className=" gap-5 justify-end ">
+            <Badge color="danger" shape="circle" content='1'  >
+              <Cart></Cart>
+            </Badge>
+
+            {/*<button className=" flex gap-5 items-center">
             
 
 
@@ -127,8 +127,9 @@ export const NavBar = () => {
             <span className="snipcart-total-price font-medium text-lg hidden md:inline ">0.00</span>
           </button>*/}
 
-        </NavbarItem>
+          </NavbarItem>
 
+        </NavbarContent>
       </NavbarContent>
 
       <NavbarMenu>
