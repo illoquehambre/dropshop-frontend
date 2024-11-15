@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { createContext, useEffect, useReducer, useState } from "react";
-=======
-import { createContext, useReducer, useEffect } from "react";
->>>>>>> 84edbb93c3ccfe941e28cc1e76d9e60f1beec769
+import { createContext, useEffect, useReducer } from "react";
 
 //1. crear contexto
 export const CartContext = createContext()
