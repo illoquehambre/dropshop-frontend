@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { CartIcon } from '@/public/icons/CartIcon'
 import { useCart } from "@/app/hooks/useCart";
 import { CartItem } from '@/components/cart/CartItem'
@@ -6,25 +6,73 @@ import { Button } from "@nextui-org/react";
 import { Money } from "@/public/icons/Money";
 export default function Cart() {
     const [isOpen, setIsOpen] = useState(false);
+    const sidebarRef = useRef(null); // Referencia para el sidebar
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [totalProducts, setTotalProducts] = useState(0);
     const { cart, clearCart, addToCart, removeOneFromCart, removeFromCart } = useCart()
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
 
+    useEffect(() => {
+        setTotalPrice(
+            () => {
+                return cart.reduce((acc, product) => {
+                    return acc + (product.retail_price * product.quantity);
+                }, 0);
+            }
+        )
+        setTotalProducts(
+            () => {
+                return cart.reduce((acc, product) => {
+                    return acc + product.quantity;
+                }, 0);
+            }
+        )
+
+
+
+    }, [cart])
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            // Verifica si el clic fue fuera del sidebar
+            if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+                setIsOpen(false); // Cierra el sidebar
+            }
+        };
+
+        // Solo agregar el listener si el sidebar está abierto
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+
+        // Limpieza del efecto
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isOpen]);
+
+
     return (
         <div className="flex">
             {/* Sidebar */}
-            <aside className={`z-30 flex flex-col justify-between top-0 right-0 h-lvh fixed  bg-zinc-700 text-white  ${!isOpen && "hidden"} w-full sm:w-2/3 md:w-1/2 lg:w-1/3`}>
+            <aside ref={sidebarRef} // Asigna la referencia aquí
+                className={`z-30 flex flex-col justify-between top-0 right-0 h-lvh fixed  bg-zinc-700 text-white  ${!isOpen && "hidden"} w-full sm:w-2/3 md:w-1/2 lg:w-1/3`}>
                 <div className="p-4 font-bold text-lg flex justify-between content-center mt-4">
 
                     <span className="align-baseline">
                         Mi Carrito
                     </span>
 
-                    {
-                        //Aqui iria el numero total de items
-                    }
+                    {totalProducts > 0 && 
+                    (<span className="align-baseline">
+                        Nº de Productos: {totalProducts} 
+                    </span>
+                )}
                     <button
                         onClick={toggleSidebar}
                         className="bg-transparent text-white p-2 rounded-md"
@@ -55,7 +103,7 @@ export default function Cart() {
                     }
                 </ul>
                 <div className="flex  justify-between items-center mb-0   p-4 ">
-                    <span>TOTAL:</span>
+                    <span>TOTAL: {totalPrice}€</span>
                     <Button
                         //onClick={}
                         //será disabled cuando el carrito esté vacio
@@ -67,7 +115,7 @@ export default function Cart() {
                         size="lg"
 
                     >
-                        Añadir al carrito
+                        Realizar Pedido
                     </Button>
                 </div>
 

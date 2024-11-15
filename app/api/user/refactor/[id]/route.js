@@ -1,8 +1,5 @@
 
 
-
-
-
 const BEARER_TOKEN = process.env.NEXT_PUBLIC_BEARER_TOKEN;
 
 export async function GET(request, { params }) {
