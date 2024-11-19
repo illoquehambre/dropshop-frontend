@@ -1,8 +1,9 @@
 // pages/api/create-order-draft.js
 export async function POST(req) {
-
-    const { items, recipient, externalId } = req.body;
-
+    const body = await req.json();
+    const { items, recipient, retail_costs } = body;
+    console.log("Recipient: ",recipient);
+    
     try {
         const response = await fetch('https://api.printful.com/orders', {
             method: 'POST',
@@ -11,16 +12,15 @@ export async function POST(req) {
                 Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER_TOKEN}`,
             },
             body: JSON.stringify({
-                external_id: externalId,
-                confirm: false,  // No confirmamos aún, el pedido queda en draft
-                shipping: 'STANDARD',
+                retail_costs,
                 recipient,
                 items,
             }),
         });
 
         const data = await response.json();
-
+        console.log(data);
+        
         if (!response.ok) {
             return new Response('Failed to fetch product', { status: response.status });
         }
