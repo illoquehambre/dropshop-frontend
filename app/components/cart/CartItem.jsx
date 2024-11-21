@@ -26,7 +26,7 @@ export const CartItem = ({ item, addToCart, removeOneFromCart, removeFromCart })
                         </div>
 
                         <div className="flex flex-col col-span-8 h-full justify-between mr-1 lg:mr-3">
-                            <div className>
+                            <div >
 
                                 <div className=" absolute right-2 top-2">
                                     <Button

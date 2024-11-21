@@ -61,7 +61,7 @@ export default function Cart() {
         <div className="flex">
             {/* Sidebar */}
             <aside ref={sidebarRef} // Asigna la referencia aquí
-                className={`z-30 flex flex-col justify-between top-0 right-0 h-lvh fixed  bg-zinc-700 text-white  ${!isOpen && "hidden"} w-full sm:w-2/3 md:w-1/2 lg:w-1/3`}>
+                className={`z-30 flex flex-col justify-between top-0 right-0 h-lvh fixed  bg-zinc-700 text-white  ${!isOpen&&"hidden"} w-full sm:w-2/3 md:w-1/2 lg:w-1/3`}>
                 <div className="p-4 font-bold text-lg flex justify-between content-center mt-4">
 
                     <span className="align-baseline">
@@ -109,8 +109,8 @@ export default function Cart() {
                         //será disabled cuando el carrito esté vacio
                         //isDisabled={selectedVariante && selectedVariante.availability_status != "active"}
                         radius="full"
-                        className={` bg-gradient-to-tr   text-black  border-black shadow-lg gap-4 hover:scale-110 
-                  font-semibold tex-lg  w-fit  from-amber-400 to-amber-300/75 hover:border-0`}
+                        className=' bg-gradient-to-tr   text-black  border-black shadow-lg gap-4 hover:scale-110 
+                  font-semibold tex-lg  w-fit  from-amber-400 to-amber-300/75 hover:border-0'
                         endContent={<Money />}
                         size="lg"
 
