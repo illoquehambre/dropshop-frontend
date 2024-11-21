@@ -1,136 +1,153 @@
 import { createContext, useEffect, useReducer } from "react";
 
-//1. crear contexto
-export const CartContext = createContext()
+// 1. Crear contexto
+export const CartContext = createContext();
 
-const initialState = []
+// Estado inicial con carrito e idDraft
+const initialState = {
+  cart: [],
+  idDraft: null
+};
+
+// Reducer actualizado
 const reducer = (state, action) => {
-    const { type: actionType, payload: actionPayload } = action
-    switch (actionType) {
-        case 'INIT_CART': {
-            return actionPayload || initialState;
-        }
-        case 'ADD_TO_CART': {
-            const { id } = actionPayload
-            const productInCartIndex = state.findIndex(item => item.id === id)
-            console.log(productInCartIndex);
-
-            if (productInCartIndex >= 0) {
-
-                const newState = structuredClone(state)
-                newState[productInCartIndex].quantity += 1
-                return newState
-            }
-
-            //producto no está en el carrito
-            return [
-                ...state,
-                {
-                    ...actionPayload,
-                    quantity: 1
-                }
-            ]
-        }
-        case 'REMOVE_FROM_CART': {
-            console.log('vacia uno del carrito');
-            const { id } = actionPayload
-            return state.filter(item => item.id !== id)
-
-        }
-        case 'CLEAR_CART': {
-            console.log('vacia carrito');
-            
-            return initialState
-        }
-        case 'REMOVE_ONE_FROM_CART': {
-            
-            console.log('vacia 1 del carrito');
-            const { id } = actionPayload
-            const productInCartIndex = state.findIndex(item => item.id === id)
-
-            if (productInCartIndex >= 0) {
-                console.log('already in cart');
-                if (state[productInCartIndex].quantity <= 1) {
-                    return state.filter(item => item.id !== id)
-
-                }
-                const newState = structuredClone(state)
-                newState[productInCartIndex].quantity -= 1
-                return newState
-            }
-
-            //producto no está en el carrito
-            throw new Error('Este producto no se encuentra en su carrito.')
-        }
-        case 'INIT_CART': {
-            return actionPayload || initialState;
-        }
-
-        default:
-            break;
+  const { type: actionType, payload: actionPayload } = action;
+  switch (actionType) {
+    case 'INIT_CART': {
+      // Inicializa tanto el carrito como el idDraft
+      return {
+        ...state,
+        cart: actionPayload.cart || initialState.cart,
+        idDraft: actionPayload.idDraft || initialState.idDraft
+      };
     }
-    return state
-}
-//2. crear provider
+    case 'ADD_TO_CART': {
+      const { id } = actionPayload;
+      const productInCartIndex = state.cart.findIndex(item => item.id === id);
+
+      if (productInCartIndex >= 0) {
+        const newCart = structuredClone(state.cart);
+        newCart[productInCartIndex].quantity += 1;
+        return { ...state, cart: newCart };
+      }
+
+      // Producto no está en el carrito
+      return {
+        ...state,
+        cart: [
+          ...state.cart,
+          {
+            ...actionPayload,
+            quantity: 1
+          }
+        ]
+      };
+    }
+    case 'REMOVE_FROM_CART': {
+      const { id } = actionPayload;
+      return {
+        ...state,
+        cart: state.cart.filter(item => item.id !== id)
+      };
+    }
+    case 'SET_ID_DRAFT': {
+      // Actualiza el idDraft
+      return {
+        ...state,
+        idDraft: actionPayload
+      };
+    }
+    case 'CLEAR_CART': {
+      // Limpia el carrito y el idDraft
+      return initialState;
+    }
+    case 'REMOVE_ONE_FROM_CART': {
+      const { id } = actionPayload;
+      const productInCartIndex = state.cart.findIndex(item => item.id === id);
+
+      if (productInCartIndex >= 0) {
+        const newCart = structuredClone(state.cart);
+
+        if (newCart[productInCartIndex].quantity <= 1) {
+          // Eliminar el producto si su cantidad es 1 o menor
+          return {
+            ...state,
+            cart: state.cart.filter(item => item.id !== id)
+          };
+        }
+
+        // Reducir la cantidad del producto
+        newCart[productInCartIndex].quantity -= 1;
+        return { ...state, cart: newCart };
+      }
+
+      throw new Error('El producto no se encuentra en el carrito.');
+    }
+    default:
+      return state;
+  }
+};
+
+// 2. Crear provider
 export function CartProvider({ children }) {
-    const [state, dispatch] = useReducer(reducer, initialState)
-    // Leer carrito desde localStorage
-    useEffect(() => {
-        const storedCart = localStorage.getItem('cart');
-        if (storedCart) {
-            dispatch({ type: 'INIT_CART', payload: JSON.parse(storedCart) });
-        }
-    }, []);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-    // Guardar carrito en localStorage cuando cambie el estado
-    useEffect(() => {
-        if (state.length > 0) {
-            localStorage.setItem('cart', JSON.stringify(state));
-        } else {
-            localStorage.removeItem('cart');  // Eliminar si está vacío
-        }
-    }, [state]);
+  // Leer carrito e idDraft desde localStorage al montar el componente
+  useEffect(() => {
+    const storedData = localStorage.getItem('cart');
+    if (storedData) {
+      dispatch({ type: 'INIT_CART', payload: JSON.parse(storedData) });
+    }
+  }, []);
 
-        
-  
+  // Guardar carrito e idDraft en localStorage cuando cambie el estado
+  useEffect(() => {
+    if (state.cart.length > 0 || state.idDraft) {
+      localStorage.setItem('cart', JSON.stringify(state));
+    } else {
+      localStorage.removeItem('cart'); // Eliminar si está vacío
+    }
+  }, [state]);
 
-    // Guardar carrito en localStorage cuando cambie el estado
-    useEffect(() => {
-        console.log(state);
-        console.log(state.length);
-        if (state.length > 0) {
-            localStorage.setItem('cart', JSON.stringify(state));
-        } else {
-            localStorage.removeItem('cart');  // Eliminar si está vacío
-        }
-    }, [state]);
-    const addToCart = product => dispatch({
-        type: 'ADD_TO_CART',
-        payload: product
-    })
-    const removeFromCart = product => dispatch({
-        type: 'REMOVE_FROM_CART',
-        payload: product
-    })
-    const removeOneFromCart = product => dispatch({
-        type: 'REMOVE_ONE_FROM_CART',
-        payload: product
-    })
-    const clearCart = product => dispatch({
-        type: 'CLEAR_CART'
-    })
+  // Métodos para gestionar el estado
+  const addToCart = (product) =>
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: product
+    });
+  const removeFromCart = (product) =>
+    dispatch({
+      type: 'REMOVE_FROM_CART',
+      payload: product
+    });
+  const removeOneFromCart = (product) =>
+    dispatch({
+      type: 'REMOVE_ONE_FROM_CART',
+      payload: product
+    });
+  const clearCart = () =>
+    dispatch({
+      type: 'CLEAR_CART'
+    });
+  const setIdDraft = (id) =>
+    dispatch({
+      type: 'SET_ID_DRAFT',
+      payload: id
+    });
 
-    return (
-        <CartContext.Provider value={{
-            cart: state,
-            addToCart,
-            removeOneFromCart,
-            removeFromCart,
-            clearCart
-        }}
-        >
-            {children}
-        </CartContext.Provider>
-    )
+  return (
+    <CartContext.Provider
+      value={{
+        cart: state.cart,
+        idDraft: state.idDraft,
+        addToCart,
+        removeOneFromCart,
+        removeFromCart,
+        clearCart,
+        setIdDraft
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
 }
-

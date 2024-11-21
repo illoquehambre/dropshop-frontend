@@ -4,8 +4,6 @@ import { CartContext } from "../context/cart";
 
 export const useCart = () => {
     const context = useContext(CartContext)
-    const { cart } = context
-    console.log(cart);
     
     if (context === undefined) {
 
