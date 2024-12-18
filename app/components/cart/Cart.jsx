@@ -61,18 +61,18 @@ export default function Cart() {
         <div className="flex">
             {/* Sidebar */}
             <aside ref={sidebarRef} // Asigna la referencia aquí
-                className={`z-30 flex flex-col justify-between top-0 right-0 h-lvh fixed  bg-zinc-700 text-white  ${!isOpen&&"hidden"} w-full sm:w-2/3 md:w-1/2 lg:w-1/3`}>
+                className={`z-30 flex flex-col justify-between top-0 right-0 h-lvh fixed  bg-zinc-700 text-white  ${!isOpen && "hidden"} w-full sm:w-2/3 md:w-1/2 lg:w-1/3`}>
                 <div className="p-4 font-bold text-lg flex justify-between content-center mt-4">
 
                     <span className="align-baseline">
                         Mi Carrito
                     </span>
 
-                    {totalProducts > 0 && 
-                    (<span className="align-baseline">
-                        Nº de Productos: {totalProducts} 
-                    </span>
-                )}
+                    {totalProducts > 0 &&
+                        (<span className="align-baseline">
+                            Nº de Productos: {totalProducts}
+                        </span>
+                        )}
                     <button
                         onClick={toggleSidebar}
                         className="bg-transparent text-white p-2 rounded-md"
