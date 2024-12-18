@@ -1,5 +1,6 @@
 const BEARER_TOKEN = process.env.NEXT_PUBLIC_BEARER_TOKEN;
 
+//Get all con parametros para categorias
 export async function GET(request) {
 
     const params = new URL(request.url).searchParams;

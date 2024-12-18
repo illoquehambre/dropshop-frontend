@@ -10,12 +10,12 @@ const AddressForm = ({ onAddressSubmitted }) => {
   
 
   return (
-    <div>
+    <div className='w-full '>
       <form >
         <h2>Enter Your Shipping Address</h2>
         <AddressElement
           options={{
-            mode: 'billing', // Opciones: "shipping" o "billing"
+            mode: 'shipping', // Opciones: "shipping" o "billing"
           }}
           onChange={(event) => {
            
