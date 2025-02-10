@@ -26,21 +26,21 @@ export async function POST(req) {
 
     if (event.type === 'payment_intent.succeeded') {
         const paymentIntent = event.data.object;
-        const paymentIntentId = paymentIntent.id;
+        const idDraft = paymentIntent.metadata.idDraft;
         // Obtener idDraft desde la metadata
         ///const idDraft = paymentIntent.metadata.idDraft;
 
-        /*if (!idDraft) {
+        if (!idDraft) {
             console.error('No idDraft in metadata');
             return new Response('Missing idDraft', { status: 400 });
         }
-*/
+
         try {
             // Confirmar el pedido en Printful
-            const response = await confirmOrderInPrintful(paymentIntentId);
+            const response = await confirmOrderInPrintful(idDraft);
 
             // Notificar al cliente si hay una conexión SSE abierta
-            notifyClient(paymentIntentId, {
+            notifyClient(idDraft, {
                 status: 'success',
                 order: response,
             });
@@ -50,7 +50,7 @@ export async function POST(req) {
             console.error('Error confirming order in Printful:', err);
 
             // Notificar al cliente del error
-            notifyClient(paymentIntentId, {
+            notifyClient(idDraft, {
                 status: 'error',
                 error: err.message,
             });

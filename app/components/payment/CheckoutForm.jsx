@@ -17,13 +17,13 @@ export const CheckoutForm = () => {
       return;
     }
 
-    setIsLoading(true);
+    setIsLoading(true); 
 
     try {
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${window.location.origin}/completion`, // Página de confirmación
+          return_url: `${window.location.origin}/stripe/address/completion`, // Página de confirmación
         }
       });
 

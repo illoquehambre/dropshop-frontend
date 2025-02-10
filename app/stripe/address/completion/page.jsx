@@ -1,23 +1,27 @@
+'use client';
 import { useEffect, useState, useRef } from 'react';
-import { useRouter } from 'next/router';
+import { useCart } from '@/app/hooks/useCart';
 
 const CompletionPage = () => {
-  const router = useRouter();
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const sseConnection = useRef(null); // Ref para manejar la conexión SSE
-  const paymentIntentId = router.query.paymentIntentId; // Obtener el ID de la URL
-
+  const {idDraft} = useCart();
   useEffect(() => {
-    if (!paymentIntentId) {
+    console.log(idDraft);
+    
+    if (!idDraft) {
       setMessage("No se proporcionó el ID de pago.");
       return;
     }
 
     // Conectar al servidor SSE para recibir notificaciones sobre el pedido
     const connectToSSE = () => {
-      sseConnection.current = new EventSource(`/api/sse?paymentIntentId=${paymentIntentId}`);
-
+      console.log("Se manda?");
+      
+      sseConnection.current = new EventSource(`/api/order/sse?idDraft=${idDraft}`);
+      console.log(sseConnection.current);
+      
       sseConnection.current.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.status === 'success') {
@@ -34,6 +38,7 @@ const CompletionPage = () => {
         setMessage("Error al obtener el estado del pedido. Por favor, recarga la página.");
         sseConnection.current.close();
       };
+      setIsLoading(false);
     };
 
     connectToSSE();
@@ -51,10 +56,10 @@ const CompletionPage = () => {
         sseConnection.current.close();
       }
     };
-  }, [paymentIntentId]);
+  }, [idDraft]);
 
   return (
-    <div>
+    <div className='text-black'>
       <h1>Confirmación de Pedido</h1>
       {isLoading ? (
         <p>Procesando tu pedido...</p>
