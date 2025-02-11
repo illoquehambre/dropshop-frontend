@@ -4,6 +4,8 @@ import { useCart } from "@/app/hooks/useCart";
 import { CartItem } from '@/components/cart/CartItem'
 import { Button } from "@nextui-org/react";
 import { Money } from "@/public/icons/Money";
+import { redirect } from "next/navigation";
+import Link from "next/link";
 export default function Cart() {
     const [isOpen, setIsOpen] = useState(false);
     const sidebarRef = useRef(null); // Referencia para el sidebar
@@ -104,19 +106,22 @@ export default function Cart() {
                 </ul>
                 <div className="flex  justify-between items-center mb-0   p-4 ">
                     <span>TOTAL: {totalPrice}€</span>
-                    <Button
-                        //onClick={}
-                        //será disabled cuando el carrito esté vacio
-                        //isDisabled={selectedVariante && selectedVariante.availability_status != "active"}
-                        radius="full"
-                        className=' bg-gradient-to-tr   text-black  border-black shadow-lg gap-4 hover:scale-110 
+                    <Link href={`/stripe/address`}>
+                        <Button
+                            //será disabled cuando el carrito esté vacio
+                            //isDisabled={selectedVariante && selectedVariante.availability_status != "active"}
+                            //href="/stripe/address"
+                            radius="full"
+                            className=' bg-gradient-to-tr   text-black  border-black shadow-lg gap-4 hover:scale-110 
                   font-semibold tex-lg  w-fit  from-amber-400 to-amber-300/75 hover:border-0'
-                        endContent={<Money />}
-                        size="lg"
+                            endContent={<Money />}
+                            size="lg"
 
-                    >
-                        Realizar Pedido
-                    </Button>
+                        >
+                            Realizar Pedido
+                        </Button>
+                    </Link>
+
                 </div>
 
 
