@@ -41,7 +41,7 @@ export default function RootLayout({ children }) {
 
 
           </header>
-          <main className="w-5/6 self-center justify-self-center">
+          <main className="w-5/6 self-center justify-self-center min-h-screen">
 
             {children}
           </main>
