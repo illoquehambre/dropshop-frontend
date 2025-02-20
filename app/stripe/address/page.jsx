@@ -130,8 +130,11 @@ const AddressPage = () => {
 
     try {
       if (idDraft) {
+        console.log("ENTRA EN EL if");
         await putDraft(draft);
       } else {
+        console.log("ENTRA EN EL ELSE");
+        
         await postDraft(draft);
       }
      
