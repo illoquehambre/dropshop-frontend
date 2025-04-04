@@ -25,32 +25,39 @@ const AddressPage = () => {
   const { cart, idDraft, setIdDraft } = useCart();
   const shippingCosts = 5.00;
   const [isAddressSubmitted, setIsAddressSubmitted] = useState(false); // Estado para controlar el formulario visible
-
+  
   useEffect(() => {
 
-    const fetchOrUpdatePaymentIntent = async () => {
-      try {
-        if (paymentIntentId && idDraft) {
-          // Si ya existe un PaymentIntent, actualízalo
-          await updatePaymentIntent({ paymentIntentId});
-        } else {
-          // Si no existe, créalo
-           await createPaymentIntent();
-        }
-      } catch (error) {
-        console.error("Error handling payment intent:", error);
-      }
-    };
+    
   
     if (cart.length > 0 ) {
       fetchOrUpdatePaymentIntent();
     }
   }, [cart, idDraft]);
 
-  
+  const fetchOrUpdatePaymentIntent = async () => {
+    console.log("ENTRA EN EL useEffect");
+    console.log("PaymentIntentId:", paymentIntentId);
+    console.log("idDraft:", idDraft);
+    
+    try {
+      if (paymentIntentId && idDraft) {
+        // Si ya existe un PaymentIntent, actualízalo
+        console.log("Va a actualizar el payment intent");
+        await updatePaymentIntent( paymentIntentId);
+      } else {
+        // Si no existe, créalo
+         await createPaymentIntent();
+      }
+    } catch (error) {
+      console.error("Error handling payment intent:", error);
+    }
+  };
   
 
   const createPaymentIntent = async () => {
+    console.log("Crea un payment intent");
+    
     try {
       const response = await fetch('/api/order/payment-intent', {
         method: 'POST',
@@ -64,7 +71,8 @@ const AddressPage = () => {
       });
 
       const data = await response.json();
-
+      console.log("Data:", data);
+      
       if (response.ok) {
         setClientSecret(data.clientSecret);
         setPaymentIntentId(data.paymentIntentId)
@@ -76,7 +84,7 @@ const AddressPage = () => {
     }
   };
 
-  const updatePaymentIntent = async (paymentId) => {
+  const updatePaymentIntent = async (paymentIntentId) => {
     console.log("ENTRA EN EL metodo");
     try {
       const response = await fetch('/api/order/payment-intent', {
@@ -86,7 +94,7 @@ const AddressPage = () => {
         },
         body: JSON.stringify({
           amount: calculateTotalAmount(),
-          paymentId,
+          paymentIntentId,
           idDraft,
         }),
       });
@@ -94,7 +102,7 @@ const AddressPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log('Confirmed updates in PaymentIntent:');
+        console.log('Confirmed updates in PaymentIntent:'+ data);
       } else {
         console.error('Error updating PaymentIntent:', data);
       }
@@ -106,14 +114,22 @@ const AddressPage = () => {
 
   const calculateTotalAmount = () => {
     const subtotal = cart.reduce(
-      (total, product) => total + parseFloat(product.retail_price),
+      (total, product) => total + (parseFloat(product.retail_price) * product.quantity),
       0
     );
-    const shipping = shippingCosts;
-    const tax = 0.00; // Si tienes un cálculo dinámico de impuestos
 
-    return (subtotal + shipping + tax).toFixed(2) * 100;
-  };
+    console.log("Subtotal:", subtotal);
+
+    const shipping = shippingCosts; // Asegúrate de que `shippingCosts` tiene un valor válido
+    const tax = 0.00; // Ajusta según sea necesario
+
+    const total = subtotal + shipping + tax;
+
+    console.log("Total antes de conversión:", total);
+    console.log(Math.round(total * 100));
+    
+    return Math.round(total * 100); // Multiplicamos por 100 para representar centavos correctamente
+};
 
   const handleAddressSubmitted = async (address, name) => {
    
@@ -215,8 +231,10 @@ const AddressPage = () => {
       });
 
       const data = await response.json();
-
+      console.log("DraftUpdateData:", data);
+      
       if (response.ok) {
+        fetchOrUpdatePaymentIntent();
       } else {
         console.error("Error updating order:", data);
         alert("Failed to update order.");
