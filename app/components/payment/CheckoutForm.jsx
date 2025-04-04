@@ -23,7 +23,7 @@ export const CheckoutForm = () => {
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${window.location.origin}/stripe/address/completion`, // Página de confirmación
+          return_url: `${window.location.origin}/stripe/address/completion`,
         }
       });
 
@@ -31,7 +31,8 @@ export const CheckoutForm = () => {
         if (error.type === "card_error" || error.type === "validation_error") {
           setMessage(error.message);
         } else {
-          setMessage("Ocurrió un error inesperado.");
+          setMessage("Ocurrió un error en el procesamiento del pago, por favor verifique correctamente los datos de su tarjeta e intentelo de nuevo."
+            +" En caso de que este error persista contacte a soporte.");
         }
       } else if (paymentIntent.status === "succeeded") {
         setMessage("¡Pago completado con éxito!");

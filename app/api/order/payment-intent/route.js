@@ -34,7 +34,13 @@ export async function PUT(req) {
         console.log("ENTRA EN EL PACTH");
         
         const body = await req.json(); // Parseamos el cuerpo de la solicitud
+        console.log("BODY:", body);
+        
         const { paymentIntentId, idDraft, amount } = body; // ID del PaymentIntent y nuevo draft_id
+        console.log("paymentIntentId:", paymentIntentId);
+        console.log("idDraft:", idDraft);
+        console.log("amount:", amount);
+        
 
         if (!paymentIntentId || !idDraft) {
             return new Response(
