@@ -16,7 +16,7 @@ export default function Home() {
   );
 };
 
-export function HomeContent() {
+const HomeContent = () => {
   const [result, setResult] = useState([]);
 
   useEffect(() => {

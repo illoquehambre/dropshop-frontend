@@ -1,7 +1,8 @@
 'use client';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Image } from "@nextui-org/react";
 import Cart from '@/components/cart/Cart'
+import { useCart } from "@/app/hooks/useCart";
 import {
   Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle,
   NavbarMenu, NavbarMenuItem, Link, Button,
@@ -12,7 +13,22 @@ import { AcmeLogo } from "@/public/icons/AcmeLogo";
 
 export const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { cart } = useCart()
+  const [totalItems, settotalItems] = useState(0);
+  console.log('cart', cart)
+  useEffect(() => {
+    if (cart && cart.length > 0) {
 
+      settotalItems(
+        () => {
+          return cart.reduce((acc, product) => {
+            return acc + product.quantity;
+          }, 0);
+        }
+      )
+
+    }
+  }, [cart])
 
   const menuItems = [
     "Home",
@@ -112,24 +128,19 @@ export const NavBar = () => {
         </Dropdown>
 
 
-
-        <NavbarContent justify="end">
-          <NavbarItem className=" gap-5 justify-end ">
-            <Badge color="danger" shape="circle" content='1'  >
-              <Cart></Cart>
-            </Badge>
-
-            {/*<button className=" flex gap-5 items-center">
-            
+        {totalItems > 0 && (
+          <NavbarContent justify="end">
+            <NavbarItem className=" gap-5 justify-end ">
+              <Badge color="danger" shape="circle" content={totalItems ? totalItems : 0}  >
+                <Cart></Cart>
+              </Badge>
 
 
+            </NavbarItem>
 
-            <span className="snipcart-total-price font-medium text-lg hidden md:inline ">0.00</span>
-          </button>*/}
+          </NavbarContent>
+        )}
 
-          </NavbarItem>
-
-        </NavbarContent>
       </NavbarContent>
 
       <NavbarMenu>

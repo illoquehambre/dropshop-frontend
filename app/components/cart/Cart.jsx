@@ -104,26 +104,35 @@ export default function Cart() {
                         ))
                     }
                 </ul>
-                <div className="flex  justify-between items-center mb-0   p-4 ">
-                    <span>TOTAL: {totalPrice}€</span>
-                    <Link href={`/stripe/address`}>
-                        <Button
-                            //será disabled cuando el carrito esté vacio
-                            //isDisabled={selectedVariante && selectedVariante.availability_status != "active"}
-                            //href="/stripe/address"
-                            radius="full"
-                            className=' bg-gradient-to-tr   text-black  border-black shadow-lg gap-4 hover:scale-110 
+                {cart.length > 0 ? (
+                    <div className="flex  justify-between items-center mb-0   p-4 ">
+                        <span>TOTAL: {totalPrice}€</span>
+                        <Link href={`/stripe/address`}>
+                            <Button
+                                //será disabled cuando el carrito esté vacio
+                                isDisabled={cart.length === 0}
+                                //href="/stripe/address"
+                                radius="full"
+                                className=' bg-gradient-to-tr   text-black  border-black shadow-lg gap-4 hover:scale-110 
                   font-semibold tex-lg  w-fit  from-amber-400 to-amber-300/75 hover:border-0'
-                            endContent={<Money />}
-                            size="lg"
+                                endContent={<Money />}
+                                size="lg"
 
-                        >
-                            Realizar Pedido
-                        </Button>
-                    </Link>
+                            >
+                                Realizar Pedido
+                            </Button>
+                        </Link>
+
+                    </div>
+                ):(
+                    <div className="flex  text-center items-center mb-0   p-4 ">
+                    <span>Todavia no hay ningún producto en el carrito...</span>
+                   
 
                 </div>
+                )
 
+                }
 
 
             </aside>
