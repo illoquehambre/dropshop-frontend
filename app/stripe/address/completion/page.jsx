@@ -1,6 +1,6 @@
 'use client';
 import React, { Suspense } from 'react';
-import Status from '@/components/order/status';
+import Status from '@/components/order/Status';
 import { useSearchParams } from 'next/navigation';
 
 function CompletionPageContent() {
