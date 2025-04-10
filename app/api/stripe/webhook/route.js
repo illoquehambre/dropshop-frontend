@@ -47,8 +47,8 @@ export async function POST(req) {
 // Ejemplo de función para crear pedido en Printful
 async function handlePaymentSuccess(payment, orderId) {
   console.log('webhook recibido, enviando orden:', orderId);
-  const printfulOrderId = "118064910"; // Asegúrate de que este id corresponda al id del draft en Printful
-  //const printfulOrderId = orderId;
+  //const printfulOrderId = "118064910"; // Asegúrate de que este id corresponda al id del draft en Printful
+  const printfulOrderId = orderId;
   const endpoint = `https://api.printful.com/orders/${printfulOrderId}/confirm`;
 
   try {
