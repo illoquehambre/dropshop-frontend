@@ -12,6 +12,12 @@ export async function GET(req) {
     stripe: {},
     printful: {},
     final: false,
+    cart: {
+      items: [],
+      recipient: {},
+      costs: {},
+      reail_costs: {},
+    }
   };
 
   if (!payment_id) {
@@ -60,9 +66,15 @@ export async function GET(req) {
         responseObj.final = true;
       } else {
         const printfulData = await printfulResponse.json();
-        const orderStatus = printfulData.result.status;
+        const printfulResult = printfulData.result;
+        const orderStatus = printfulResult.status;
         responseObj.printful.status = orderStatus;
         
+        // Guardamos los datos del carrito provenientes de Printful
+        responseObj.cart.items = printfulResult.items || [];
+        responseObj.cart.recipient = printfulResult.recipient || {};
+        responseObj.cart.costs = printfulResult.costs || {};
+        responseObj.cart.reail_costs = printfulResult.reail_costs || {};
         // Asignamos un mensaje en base al estado del pedido
         if (orderStatus === 'draft') {
           responseObj.printful.message = 'Pedido en borrador, esperando confirmación.';

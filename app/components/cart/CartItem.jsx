@@ -20,7 +20,7 @@ export const CartItem = ({ item, addToCart, removeOneFromCart, removeFromCart })
                                 className="object-cover  h-32"
 
                                 shadow="sm"
-                                src={item.product.image}
+                                src={item.files[1].thumbnail_url}
                                 width="100%"
                             />
                         </div>
