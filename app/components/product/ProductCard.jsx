@@ -4,11 +4,12 @@ import { Card, CardFooter, Image, Button, Skeleton } from "@nextui-org/react";
 import Link from "next/link"
 import { useEffect, useState } from "react";
 
-export const ProductCard = ({ producto }) => {
+export const ProductCard = ({ producto, filteredData }) => {
   const [product, setProduct] = useState(null);
   const [variants, setVariants] = useState([]);
   const [price, setPrice] = useState('');
   const [loading, setLoading] = useState(true);
+  const [visible, setIsVisible] = useState(true)
 
   useEffect(() => {
     if (producto && producto.id) {
@@ -30,18 +31,42 @@ export const ProductCard = ({ producto }) => {
   useEffect(() => {
     if (variants.length > 0) {
       getCheapestVariante(variants)
-        .then(cheapest => setPrice(cheapest))
+        .then(cheapest => {
+          setPrice(cheapest)
+        }
+        )
         .catch(error => {
           console.error('Error getting cheapest variant:', error);
         });
     }
   }, [variants]);
 
+  useEffect(() => {
+    console.log(filteredData);
+    
+    if (price!='' && filteredData) {
+      const productPrice = price;
+     
+      
+        const max = parseFloat(filteredData.maxPrice) || Infinity;
+     
+      const min=parseFloat(filteredData.minPrice) || 0;
+      // Mostrar u ocultar el producto si está dentro del rango de precios
+      if (productPrice >= min && productPrice <= max) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+    }
+  }, [filteredData,price ]);
+
+
+
 
 
   // Renderizar el producto una vez cargado
   return (
-    <div className="my-6 flex justify-center h-fit">
+    <div className={`my-6 flex justify-center h-fit ${visible?'block':'hidden'}`}>
       <Card isFooterBlurred radius="lg" className="border-none w-fit">
         <Skeleton isLoaded={!loading} className="rounded-lg">
           <Link href={`/productos/${product && product.id}`}>
@@ -61,7 +86,7 @@ export const ProductCard = ({ producto }) => {
               <p className="text-black/75 text-xs md:text-lg font-bold">{price} €</p>
             </Skeleton>
             <Link href={`/productos/${product && product.id}`}>
-              <Button className=" text-xs md:text-sm text-white bg-blue-700/50 font-bold" variant="flat" color="default" radius="md" size="sm">
+              <Button className=" text-xs md:text-sm text-black bg-pink-600/50 font-bold" variant="flat" color="default" radius="md" size="sm">
                 Buy
               </Button>
             </Link>

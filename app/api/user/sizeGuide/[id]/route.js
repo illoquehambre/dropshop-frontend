@@ -17,6 +17,8 @@ export async function GET(request, { params }) {
                 'Content-Type': 'application/json',
             },
         });
+        console.log(response);
+        
         if (!response.ok) {
             return new Response('Failed to fetch product', { status: response.status });
         }

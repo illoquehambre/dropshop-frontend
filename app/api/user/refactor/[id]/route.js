@@ -1,9 +1,8 @@
 
 
-
-
-
 const BEARER_TOKEN = process.env.NEXT_PUBLIC_BEARER_TOKEN;
+
+//get by id un producto
 
 export async function GET(request, { params }) {
 
