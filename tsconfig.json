@@ -24,7 +24,10 @@
       "@/api/*": ["app/api/*"],
       "@/components/*": ["app/components/*"],
       "@/services/*": ["app/services/*"],
-      "@/dto/*": ["app/dto/*"]
+      "@/dto/*": ["app/dto/*"],
+      "@/styles/*": ["app/styles/*"],
+      "@/context/*": ["app/context/*"],
+      "@/hooks/*": ["app/hooks/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/lib/mongodb.js", "app/services/productsService.js", "app/layout.jsx"],
