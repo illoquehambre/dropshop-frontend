@@ -1,3 +1,4 @@
+'use client';
 import { createContext, useEffect, useReducer } from "react";
 
 // 1. Crear contexto

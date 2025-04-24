@@ -10,6 +10,7 @@ import {
 } from "@nextui-org/react";
 import { ChevronDown } from '@/public/icons/ChevronDown'
 import { AcmeLogo } from "@/public/icons/AcmeLogo";
+import { useStore } from "@/app/context/store-context";
 
 export const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -41,7 +42,8 @@ export const NavBar = () => {
   ];
 
 
-
+  const store = useStore()
+  console.log('store', store)
   const icons = {
     chevron: <ChevronDown fill="currentColor" size={16} />,
   }
@@ -67,7 +69,7 @@ export const NavBar = () => {
         <NavbarItem className="hidden md:flex">
           <Link color="foreground" href="/">
             <span className="text-2xl font-semibold text-white">
-              Home
+              {store.title}
             </span>
 
           </Link>

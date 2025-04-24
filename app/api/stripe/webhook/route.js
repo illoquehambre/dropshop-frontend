@@ -23,7 +23,7 @@ export async function POST(req) {
     console.error('Error al validar webhook:', err.message);
     return NextResponse.json({ error: 'Webhook inválido' }, { status: 400 });
   }
-
+0 
   // Procesar el evento
   switch (event.type) {
     case 'payment_intent.succeeded':
