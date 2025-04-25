@@ -47,7 +47,11 @@ export const NavBar = () => {
   const icons = {
     chevron: <ChevronDown fill="currentColor" size={16} />,
   }
-
+  const {title, logo} = store
+  const strapiUrl = process.env.NEXT_PUBLIC_SRAPI_URL
+  console.log('strapiUrl', strapiUrl)
+  console.log('logo', strapiUrl+ logo[0].url)
+  console.log('log2', logo[0].url)
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen} className="bg-neutral-900/90 h-24 z-10 px-2  sm:px-12" maxWidth="full" height={'7rem'} >
       <NavbarContent className="gap-5 md:gap-14 justify-between" >
@@ -56,7 +60,7 @@ export const NavBar = () => {
           className="md:hidden flex"
         />
         <NavbarBrand className="gap-5  flex-grow-0 basis-auto" >
-          <Image className="rounded-full  h-12 md:h-14 lg:h-20 xl:h-24" src="/logo3.jpg" alt="Logo" />
+          <Image className="rounded-full  h-12 md:h-14 lg:h-20 xl:h-24" src={`${strapiUrl}${logo[0].url}`} alt="Logo" />
 
           {/*
           <div className="gap-3 sm:gap-1  flex flex-col">
@@ -69,7 +73,7 @@ export const NavBar = () => {
         <NavbarItem className="hidden md:flex">
           <Link color="foreground" href="/">
             <span className="text-2xl font-semibold text-white">
-              {store.title}
+              {title}
             </span>
 
           </Link>
