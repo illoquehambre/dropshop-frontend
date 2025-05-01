@@ -42,7 +42,7 @@ export default function Cart() {
             // Verifica si el clic fue fuera del sidebar
             if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
                 setIsOpen(false); // Cierra el sidebar
-            }
+            } 
         };
 
         // Solo agregar el listener si el sidebar está abierto
