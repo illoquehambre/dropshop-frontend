@@ -23,7 +23,7 @@ export const CheckoutForm = () => {
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${window.location.origin}/stripe/address/completion`,
+          return_url: `${window.location.origin}/stripe/completion`,
         }
       });
 

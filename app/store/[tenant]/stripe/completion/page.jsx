@@ -6,7 +6,10 @@ import { useSearchParams } from 'next/navigation';
 function CompletionPageContent() {
   const searchParams = useSearchParams();
   const paymentId = searchParams.get('payment_intent') || '';
-
+  const params = new URLSearchParams(window.location.search);
+  // Guarda lo que necesites (p. ej. payment_intent) en memoria o llama al backend
+  params.delete('payment_intent_client_secret');
+  window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
   if (!paymentId) {
     return (
       <p className="text-black">
