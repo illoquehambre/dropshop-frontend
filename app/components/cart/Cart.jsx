@@ -107,7 +107,7 @@ export default function Cart() {
                 {cart.length > 0 ? (
                     <div className="flex  justify-between items-center mb-0   p-4 ">
                         <span>TOTAL: {totalPrice}€</span>
-                        <Link href={`/stripe/address`}>
+                        <Link href={`/stripe`}>
                             <Button
                                 //será disabled cuando el carrito esté vacio
                                 isDisabled={cart.length === 0}
