@@ -9,11 +9,12 @@ import {
   DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Badge
 } from "@nextui-org/react";
 import { ChevronDown } from '@/public/icons/ChevronDown'
-import { AcmeLogo } from "@/public/icons/AcmeLogo";
+import { useTenant } from "@/app/context/tenant";
 
 export const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { cart } = useCart()
+  const store = useTenant();
   const [totalItems, settotalItems] = useState(0);
   console.log('cart', cart)
   useEffect(() => {
@@ -67,7 +68,7 @@ export const NavBar = () => {
         <NavbarItem className="hidden md:flex">
           <Link color="foreground" href="/">
             <span className="text-2xl font-semibold text-white">
-              Home
+              {store?.title}
             </span>
 
           </Link>
