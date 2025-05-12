@@ -1,34 +1,25 @@
+'use client'
+import { createContext, useContext, useEffect, useState } from 'react'
 
-'use client';
-import { createContext, useContext, useEffect, useState } from 'react';
+const TenantContext = createContext<string | null>(null)
 
-type Store = {
-  
-    title: string;
-    logo: {
-      id: string;
-      url: string;
-      preview_url: string
-      name: string
-    };
-  
-};
+export function TenantProvider({ children }: { children: React.ReactNode }) {
+  const [tenant, setTenant] = useState<string | null>(null)
 
-const TenantContext = createContext<Store | null>(null);
+  useEffect(() => {
+    const match = document.cookie.match(/(^|;\s*)tenant=([^;]+)/)
+    if (match) setTenant(match[2])
+  }, [])
 
-export function TenantProvider({ children,
-  store 
-}: {
-  children: React.ReactNode;
-  store: Store | null;
-}) {
   return (
-    <TenantContext.Provider value={store}>
+    <TenantContext.Provider value={tenant}>
       {children}
     </TenantContext.Provider>
-  );
+  )
 }
 
 export function useTenant() {
-  return useContext(TenantContext);
+  const t = useContext(TenantContext)
+  if (t === undefined) throw new Error('useTenant debe usarse dentro de TenantProvider')
+  return t
 }
