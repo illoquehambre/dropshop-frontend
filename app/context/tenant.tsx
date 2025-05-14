@@ -9,6 +9,7 @@ export function TenantProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const match = document.cookie.match(/(^|;\s*)tenant=([^;]+)/)
     if (match) setTenant(match[2])
+    console.log('tenant', match)
   }, [])
 
   return (

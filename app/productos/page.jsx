@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import { Skeleton } from '@nextui-org/react';
 import { Slider } from "@nextui-org/react";
-
+import { useStore } from '@/context/store';
 
 export default function Productos() {
   return (
@@ -23,6 +23,7 @@ const ProductosContent = () => {
   const [categoryName, setCategoryName] = useState('');
   const [filteredData, setFilteredData] = useState(null)
   const [value, setValue] = useState([0, 100]);
+  const {title} = useStore();
   // Esta función será llamada por cada hijo para pasar los detalles al padre
 
 
@@ -36,7 +37,7 @@ const ProductosContent = () => {
 
 
     // Llamada al endpoint de la API
-    fetch(`/api/user/refactor?category=${category || category != null ? category : ''}`)
+    fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/printful-products/${title}?category=${category || category != null ? category : ''}`)
       .then(response => response.json())
       .then(data => {
         setResult(data.result);

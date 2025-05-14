@@ -2,17 +2,19 @@
 import ProductDetailsCard from '@/components/product/ProductDetailsCard';
 import { useState, useEffect } from 'react';
 import { Skeleton } from '@nextui-org/react';
+import { useStore } from '@/context/store';
 
 const ProductDetails = ({ params }) => {
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { title } = useStore();
 
   useEffect(() => {
     console.log(`Fetching data for product ID: ${params.idProducto}`);
 
     // Llamada al endpoint de la API
-    fetch(`/api/user/refactor/${params.idProducto}`)
+    fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/printful-products/${title}/details/${params.idProducto}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

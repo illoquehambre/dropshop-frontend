@@ -10,7 +10,7 @@ export default async function StoreLayout({
   children: React.ReactNode;
   params: { tenant: string };
 }) {
-  
+  console.log('StoreLayout', params.tenant);
   return (
     <StoreProvider slug={params.tenant}>
       <header className="sticky top-0 z-30">

@@ -3,6 +3,7 @@ import { ProductCard } from '@/components/product/ProductCard'
 import { useState, useEffect, Suspense } from 'react';
 import Masonry from '@/app/components/masonry/Masonry'
 import { Skeleton } from '@nextui-org/react';
+import { useStore } from '@/context/store';
 
 export default function Home() {
   return (
@@ -18,10 +19,10 @@ export default function Home() {
 
 const HomeContent = () => {
   const [result, setResult] = useState([]);
-
+  const {title} = useStore();
   useEffect(() => {
     // Llamada al endpoint de la API
-    fetch('/api/user/refactor')
+    fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/printful-products/${title}`)
       .then(response => response.json())
       .then(data => {
         setResult(data.result);

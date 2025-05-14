@@ -8,6 +8,9 @@ import ColorSelector from '@/components/selectors/ColorSelector';
 import SizeSelector from '@/components/selectors/SizeSelector';
 import SizeGuide from '@/components/sizeGuide/SizeGuide'
 import { useCart } from '@/hooks/useCart'
+import { useStore } from '@/context/store';
+
+
 export default function ProductDetailsCard({ result }) {
   const producto = result.sync_product;
   //const variantes = result.sync_variants

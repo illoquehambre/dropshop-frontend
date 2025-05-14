@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     experimental: { appDir: true },
-    async rewrites() {
+    /*async rewrites() {
       return [
         {
           source: '/:path*',
@@ -14,7 +14,7 @@ const nextConfig = {
           destination: '/store/:tenant',
         },
       ];
-    },
+    },*/
 };
 
 export default nextConfig;
