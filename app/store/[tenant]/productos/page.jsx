@@ -7,6 +7,7 @@ import { Skeleton } from '@nextui-org/react';
 import { Slider } from "@nextui-org/react";
 import { useStore } from '@/context/store';
 
+
 export default function Productos() {
   return (
     <Suspense fallback={<LoadingSkeleton />}>
@@ -23,7 +24,8 @@ const ProductosContent = () => {
   const [categoryName, setCategoryName] = useState('');
   const [filteredData, setFilteredData] = useState(null)
   const [value, setValue] = useState([0, 100]);
-  const {title} = useStore();
+  const { title } = useStore();
+
   // Esta función será llamada por cada hijo para pasar los detalles al padre
 
 
@@ -76,15 +78,15 @@ const ProductosContent = () => {
       <h1 className='text-zinc-800 text-3xl font-bold mt-10'>{categoryName}</h1>
       <Slider
         label="Price Range"
-        
+
         minValue={0}
         maxValue={100}
-        value={value} 
+        value={value}
         onChange={setValue}
         onChangeEnd={(newRange) => setFilteredData({ minPrice: newRange[0], maxPrice: newRange[1] })} // Filtra al soltar
 
         formatOptions={{ style: "currency", currency: "EUR" }}
-        
+
         className="max-w-md text-black"
         tooltipProps={{
           offset: 10,
@@ -101,8 +103,8 @@ const ProductosContent = () => {
           },
         }}
       />
-      
-     
+
+
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-y-7 gap-x-3 min-h-screen">
         {error ? (
           <p>{error}</p>
@@ -123,7 +125,7 @@ const LoadingSkeleton = () => {
 
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-y-7 gap-x-3 min-h-screen">
       {[...Array(8)].map((_, i) => (
-        <Skeleton key={i} height={200} width="100%" />  
+        <Skeleton key={i} height={200} width="100%" />
       ))}
     </div>
 

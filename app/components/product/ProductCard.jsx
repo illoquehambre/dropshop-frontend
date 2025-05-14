@@ -3,6 +3,7 @@ import { getCheapestVariante } from "@/app/services/productsService";
 import { Card, CardFooter, Image, Button, Skeleton } from "@nextui-org/react";
 import Link from "next/link"
 import { useEffect, useState } from "react";
+import { useStore } from '@/context/store';
 
 export const ProductCard = ({ producto, filteredData }) => {
   const [product, setProduct] = useState(null);
@@ -10,11 +11,12 @@ export const ProductCard = ({ producto, filteredData }) => {
   const [price, setPrice] = useState('');
   const [loading, setLoading] = useState(true);
   const [visible, setIsVisible] = useState(true)
+  const {title} = useStore();
 
   useEffect(() => {
     if (producto && producto.id) {
       // Llamada al endpoint de la API
-      fetch(`/api/user/refactor/${producto.id}`)
+      fetch(`${process.env.NEXT_PUBLIC_STRAPI_API_URL}/printful-products/${title}/details/${producto.id}`)
         .then(response => response.json())
         .then(data => {
           setProduct(data.result.sync_product);

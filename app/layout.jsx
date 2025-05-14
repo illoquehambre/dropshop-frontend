@@ -2,8 +2,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-import { NavBar } from '@/components/navbar/NavBar2'
-import { Footer } from '@/app/components/footer/Footer'
 
 
 
@@ -17,11 +15,6 @@ export const metadata = {
 
 
 export default function RootLayout({ children }) {
-
-
-
-
-
   return (
     <html lang="es">
       <head>
@@ -34,21 +27,10 @@ export default function RootLayout({ children }) {
 
           {/** <script src="https://cdn.snipcart.com/themes/v3.2.0/default/snipcart.js"></script>
           <div hidden id="snipcart" data-api-key={BEARER_TOKEN}></div>*/}
+          {children}
 
-          <header className="sticky top-0 z-30">
-
-            <NavBar></NavBar>
-
-
-          </header>
-          <main className="w-5/6 self-center justify-self-center min-h-screen">
-
-            {children}
-          </main>
         </Providers>
-        <footer>
-          <Footer></Footer>
-        </footer>
+        
       </body>
     </html>
   );
